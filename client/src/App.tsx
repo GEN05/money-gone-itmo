@@ -1,15 +1,12 @@
-import React, {FC, useContext, useEffect, useState} from 'react';
+import React, {FC, useContext, useEffect} from 'react';
 import LoginForm from "./components/LoginForm";
 import TransactionForm from "./components/TransactionForm";
 import {Context} from "./index";
 import {observer} from "mobx-react-lite";
-import {IUser} from "./models/IUser";
-import UserService from "./services/UserService";
 import TransactionList from "./components/TransactionList";
 
 const App: FC = () => {
     const {store} = useContext(Context);
-    const [users, setUsers] = useState<IUser[]>([]);
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
@@ -17,44 +14,27 @@ const App: FC = () => {
         }
     }, [])
 
-    async function getUsers() {
-        try {
-            const response = await UserService.fetchUsers();
-            setUsers(response.data);
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
     if (store.isLoading) {
-        return <div>Загрузка...</div>
+        return <div>Loading...</div>
     }
 
     if (!store.isAuth) {
         return (
             <div>
                 <LoginForm/>
-                <button onClick={getUsers}>Получить пользователей</button>
             </div>
         );
     }
 
     return (
         <div>
-            <h1>{store.isAuth ? `Добро пожаловать ${store.user.firstName} ${store.user.lastName}` : 'АВТОРИЗУЙТЕСЬ'}</h1>
-            <h1>{store.user.isActivated ? `Аккаунт подтвержден по почте ${store.user.email}` : `ПОДТВЕРДИТЕ АККАУНТ!!!! ${store.user.email}`}</h1>
-            <button onClick={() => store.logout()}>Выйти</button>
+            <h1>{store.isAuth ? `Welcome ${store.user.firstName} ${store.user.lastName}` : 'Please log in'}</h1>
+            <h1>{store.user.isActivated ? `Account confirmed with ${store.user.email}` : `Please confirm account with ${store.user.email}`}</h1>
+            <button onClick={() => store.logout()}>log out</button>
 
             <TransactionForm/>
-
             <TransactionList/>
 
-            <div>
-                <button onClick={getUsers}>Получить пользователей</button>
-            </div>
-            {users.map(user =>
-                <div id={user.email}>{user.email}</div>
-            )}
         </div>
     );
 };

@@ -17,7 +17,7 @@ class UserService {
     async registration(email, password, firstName, lastName) {
         const candidate = await UserModel.findOne({email})
         if (candidate) {
-            throw ApiError.BadRequest(`Пользователь с почтовым адресом ${email} уже существует`)
+            throw ApiError.BadRequest(`User with email ${email} already exists`)
         }
         const hashPassword = await bcrypt.hash(password, 3);
         const activationLink = uuid.v4(); // v34fa-asfasf-142saf-sa-asf
@@ -35,7 +35,7 @@ class UserService {
     async activate(activationLink) {
         const user = await UserModel.findOne({activationLink})
         if (!user) {
-            throw ApiError.BadRequest('Неккоректная ссылка активации')
+            throw ApiError.BadRequest('Incorrect activation link')
         }
         user.isActivated = true;
         await user.save();
@@ -44,11 +44,11 @@ class UserService {
     async login(email, password) {
         const user = await UserModel.findOne({email})
         if (!user) {
-            throw ApiError.BadRequest('Пользователь с таким email не найден')
+            throw ApiError.BadRequest('No user exists with such email')
         }
         const isPassEquals = await bcrypt.compare(password, user.password);
         if (!isPassEquals) {
-            throw ApiError.BadRequest('Неверный пароль');
+            throw ApiError.BadRequest('Incorrect password');
         }
         const userDto = applyDto(user) ;
         const tokens = tokenService.generateTokens({...userDto});
@@ -58,8 +58,7 @@ class UserService {
     }
 
     async logout(refreshToken) {
-        const token = await tokenService.removeToken(refreshToken);
-        return token;
+        return await tokenService.removeToken(refreshToken);
     }
 
     async refresh(refreshToken) {
@@ -77,11 +76,6 @@ class UserService {
 
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
         return {...tokens, user: userDto}
-    }
-
-    async getAllUsers() {
-        const users = await UserModel.find();
-        return users;
     }
 
     async addTransaction(userId, date, category, value) {

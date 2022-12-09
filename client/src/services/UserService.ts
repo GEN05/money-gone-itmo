@@ -1,14 +1,8 @@
 import $api from "../http";
 import {AxiosResponse} from 'axios';
-import {IUser, Transaction} from "../models/IUser";
-// import {AuthResponse} from "../models/response/AuthResponse";
-// import {AuthResponse} from "../models/response/AuthResponse";
+import {Transaction} from "../models/IUser";
 
 export default class UserService {
-    static async fetchUsers(): Promise<AxiosResponse<IUser[]>> {
-        return $api.get<IUser[]>('/users')
-    }
-
     static async addTransaction(date: number, category: string, value: number): Promise<AxiosResponse<[Transaction]>>{
         return $api.post<[Transaction]>('/add-transaction', {date, category, value})
     }

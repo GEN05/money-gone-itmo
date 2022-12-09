@@ -15,7 +15,6 @@ router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.get('/activate/:link', userController.activate);
 router.get('/refresh', userController.refresh);
-router.get('/users', authMiddleware, userController.getUsers);
 router.post('/add-transaction', authMiddleware, userController.addTransaction);
 router.post('/delete-transaction', authMiddleware, userController.deleteTransaction);
 

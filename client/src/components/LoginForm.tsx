@@ -34,13 +34,13 @@ const LoginForm: FC = () => {
                 onChange={e => setPassword(e.target.value)}
                 value={password}
                 type="password"
-                placeholder='Пароль'
+                placeholder='Password'
             />
             <button onClick={() => store.login(email, password)}>
-                Логин
+                log in
             </button>
             <button onClick={() => store.registration(email, password, firstName, lastName)}>
-                Регистрация
+                register
             </button>
         </div>
     );
