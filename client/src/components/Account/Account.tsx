@@ -23,15 +23,20 @@ const Account: FC = () => {
                 </span>
             </div>
             <div className='user_info'>
-                <img className='profile-photo' src={avatar}/>
+                <img className='profile-photo' src={avatar} alt="profile photo"/>
                 <div className='user_info_actions'>
-                    <span className='user_info_name'>{store.user.firstName} {store.user.lastName}</span>
+                    <span className='user_info_name'>
+                        {store.user.firstName} {store.user.lastName}
+                    </span>
                     <span
-                        className='email-verification'>{store.user.isActivated ? `email verified` : `verify email`}</span>
-                    <button onClick={() => store.logout()}>log out</button>
+                        className='email-verification'>
+                        {store.user.isActivated ? `email verified` : `verify email!!!`}
+                    </span>
+                    <button onClick={() => store.logout()}>
+                        log out
+                    </button>
                 </div>
             </div>
-            {/*<div><button onClick={() => store.logout()}>log out</button></div>*/}
         </div>
     );
 };

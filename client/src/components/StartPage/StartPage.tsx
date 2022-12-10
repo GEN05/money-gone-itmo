@@ -15,8 +15,16 @@ const StartPage: FC = () => {
         return (
             <div className='startpage-form'>
                 <div className='startpage-actions'>
-                    <span className='startpage-action' onClick={() => setState('login')}><b>Sign in</b></span>
-                    <span className='startpage-action' onClick={() => setState('register')}>Sign up</span>
+                    <span
+                        className='startpage-action'
+                        onClick={() => setState('login')}>
+                        <b>Sign in</b>
+                    </span>
+                    <span
+                        className='startpage-action'
+                        onClick={() => setState('register')}>
+                        Sign up
+                    </span>
                 </div>
                 <div className='startpage-data'>
                     <input
@@ -43,8 +51,16 @@ const StartPage: FC = () => {
         return (
             <div className='startpage-form'>
                 <div className='startpage-actions'>
-                    <span className='startpage-action' onClick={() => setState('login')}>Sign in</span>
-                    <span className='startpage-action' onClick={() => setState('register')}><b>Sign up</b></span>
+                    <span
+                        className='startpage-action'
+                        onClick={() => setState('login')}>
+                        Sign in
+                    </span>
+                    <span
+                        className='startpage-action'
+                        onClick={() => setState('register')}>
+                        <b>Sign up</b>
+                    </span>
                 </div>
                 <div className='startpage-data'>
                     <input

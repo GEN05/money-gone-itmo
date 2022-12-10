@@ -1,5 +1,14 @@
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
 .transaction-form {
-    padding: 0 16px 0 16px;
+    padding: 0 12px 0 12px;
 }
 
 .transaction-form_default {
@@ -7,6 +16,8 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+
+    padding: 0 10px 0 4px;
 }
 
 .transaction-form_active {
@@ -18,20 +29,38 @@
     margin-top: 16px;
 }
 
-.transaction-form_input{
+.transaction-form_inputs{
     display: flex;
-    flex-direction: column;
-    width: min-content;
+    flex-direction: row;
+    /*width: min-content;*/
 }
 
-.transaction-form_input input{
-    width: 150px;
+.transaction-form_select{
+    min-width: 150px;
+    width: max-content;
+}
+
+.transaction-form_input{
+    width: 50px;
+    margin-left: 12px;
+    padding: 2px 8px;
+    /*used hsl color model because 'react-select' use the same model*/
+    border: 1px solid hsl(0deg 0% 80%);
+    border-radius: 4px;
 }
 
 .transaction-form_submit {
-    margin-left: auto;
+    width: 32px;
+    height: 32px;
+    margin: 0 12px;
+
+    cursor: pointer;
 }
 
 .transaction-form_close {
-    margin-left: 12px;
+    width: 32px;
+    height: 32px;
+    margin-left: auto;
+
+    cursor: pointer;
 }

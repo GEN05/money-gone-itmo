@@ -22,7 +22,9 @@ const App: FC = () => {
 
     if (!store.isAuth) {
         return (
-            <StartPage/>
+            <div className='main-window'>
+                <StartPage/>
+            </div>
         );
     }
 
