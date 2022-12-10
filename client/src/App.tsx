@@ -1,9 +1,11 @@
+import './App.css'
 import React, {FC, useContext, useEffect} from 'react';
-import LoginForm from "./components/LoginForm";
-import TransactionForm from "./components/TransactionForm";
 import {Context} from "./index";
 import {observer} from "mobx-react-lite";
-import TransactionList from "./components/TransactionList";
+import StartPage from "./components/StartPage/StartPage";
+import Account from "./components/Account/Account";
+import TransactionForm from "./components/TransactionForm/TransactionForm";
+import TransactionList from "./components/TransactionList/TransactionList";
 
 const App: FC = () => {
     const {store} = useContext(Context);
@@ -20,21 +22,20 @@ const App: FC = () => {
 
     if (!store.isAuth) {
         return (
-            <div>
-                <LoginForm/>
-            </div>
+            <StartPage/>
         );
     }
 
     return (
-        <div>
-            <h1>{store.isAuth ? `Welcome ${store.user.firstName} ${store.user.lastName}` : 'Please log in'}</h1>
-            <h1>{store.user.isActivated ? `Account confirmed with ${store.user.email}` : `Please confirm account with ${store.user.email}`}</h1>
-            <button onClick={() => store.logout()}>log out</button>
-
-            <TransactionForm/>
-            <TransactionList/>
-
+        <div className='main-window'>
+            <div className='first-window'>
+                <h1>HERE WILL BE STATISTICS</h1>
+            </div>
+            <div className='second-window'>
+                <Account/>
+                <TransactionForm/>
+                <TransactionList/>
+            </div>
         </div>
     );
 };

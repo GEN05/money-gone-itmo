@@ -33,6 +33,7 @@ export default class Store {
     }
 
     async login(email: string, password: string) {
+        this.setLoading(true);
         try {
             const response = await AuthService.login(email, password);
             console.log(response)
@@ -42,6 +43,9 @@ export default class Store {
         } catch (e) {
             // @ts-ignore
             console.log(e.response?.data?.message);
+            alert('Incorrect password or such user exists')
+        } finally {
+            this.setLoading(false);
         }
     }
 
@@ -49,6 +53,7 @@ export default class Store {
                        password: string,
                        firstName: string,
                        lastName: string,) {
+        this.setLoading(true);
         try {
             const response = await AuthService.registration(email, password, firstName, lastName);
             console.log(response)
@@ -58,6 +63,8 @@ export default class Store {
         } catch (e) {
             // @ts-ignore
             console.log(e.response?.data?.message);
+        } finally {
+            this.setLoading(false);
         }
     }
 

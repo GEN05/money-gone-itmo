@@ -1,0 +1,37 @@
+.transaction-form {
+    padding: 0 16px 0 16px;
+}
+
+.transaction-form_default {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.transaction-form_active {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 16px;
+}
+
+.transaction-form_input{
+    display: flex;
+    flex-direction: column;
+    width: min-content;
+}
+
+.transaction-form_input input{
+    width: 150px;
+}
+
+.transaction-form_submit {
+    margin-left: auto;
+}
+
+.transaction-form_close {
+    margin-left: 12px;
+}

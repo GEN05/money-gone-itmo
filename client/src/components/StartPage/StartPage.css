@@ -1,0 +1,35 @@
+.startpage {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 48px;
+
+    width: 100%;
+}
+
+.startpage-form {
+    padding: 10px 12px 10px 12px;
+    border-radius: 6px;
+
+    box-shadow: 0px 2px 5px rgba(13, 63, 103, 0.1);
+    background: rgba(255, 255, 255, 1);
+}
+
+.startpage-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.startpage-action {
+    cursor: pointer;
+}
+
+.startpage-data {
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 12px;
+
+    width: min-content;
+}

@@ -1,0 +1,67 @@
+.account {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    min-width: 330px;
+
+    padding: 12px 12px 0 12px;
+}
+
+.account_info {
+    display: flex;
+    flex-direction: column;
+
+    white-space: nowrap;
+}
+
+.account_balance {
+    font-size: xx-large;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.profile-photo {
+    width: 64px;
+    height: 64px;
+}
+
+.user_info {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+    margin-left: 16px;
+}
+
+.user_info_actions {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    margin-left: 16px;
+    height: auto;
+}
+
+.user_info_name {
+    white-space: nowrap;
+}
+
+.email-verification {
+    font-style: italic;
+}
+
+@media (max-width: 800px) {
+    .account {
+        min-width: 250px;
+    }
+}
+
+@media (max-width: 320px) {
+    .profile-photo {
+        height: unset;
+        width: unset;
+        display: none;
+    }
+}
