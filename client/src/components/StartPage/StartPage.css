@@ -1,71 +1,71 @@
 .startpage {
-    margin-top: 48px;
-    width: 100%;
+  margin-top: 48px;
+  width: 100%;
 
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .startpage-form {
-    height: max-content;
-    padding: 10px 12px 12px 12px;
+  height: max-content;
+  padding: 10px 12px 12px 12px;
 
-    box-shadow: 0 2px 5px rgba(13, 63, 103, 0.1);
-    background: #fff;
-    border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(13, 63, 103, 0.1);
+  background: #fff;
+  border-radius: 6px;
 }
 
 .startpage-form a {
-    margin-right: auto;
+  margin-right: auto;
 }
 
 .startpage-form input {
-    margin-top: 10px;
-    padding: 2px 8px;
-    /*width: 200px;*/
+  margin-top: 10px;
+  padding: 2px 8px;
+  /*width: 200px;*/
 
-    border: 1px solid #ccccccf2;
-    border-radius: 4px;
+  border: 1px solid #ccccccf2;
+  border-radius: 4px;
 }
 
 .startpage-form button {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .startpage-actions {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 .startpage-action {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .startpage-data {
-    margin-top: 12px;
-    width: min-content;
+  margin-top: 12px;
+  width: min-content;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .avatars {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 
-    width: 100%;
+  width: 100%;
 }
 
 .avatar {
-    width: 64px;
-    height: 64px;
+  width: 64px;
+  height: 64px;
 }
 
 .avatar-input {
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
 }

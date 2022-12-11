@@ -1,85 +1,84 @@
 /* description of wrapper (.charts) properties for adaptive display of charts */
 
 .charts {
-    /*padding: 20px 24px 30px 24px;*/
+  /*padding: 20px 24px 30px 24px;*/
 
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
 
-
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(13, 63, 103, 0.1);
-    background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(13, 63, 103, 0.1);
+  background: #ffffff;
 }
 
 .charts hr {
-    border: none;
-    border-left: 4px dashed #f6f6f6;
-    height: auto;
-    width: 1px;
+  border: none;
+  border-left: 4px dashed #f6f6f6;
+  height: auto;
+  width: 1px;
 
-    margin: 0 8px;
+  margin: 0 8px;
 }
 
 .charts h2 {
-    margin-left: 24px;
+  margin-left: 24px;
 }
 
 .chart-line-sizer {
-    flex-grow: 8;
+  flex-grow: 8;
 }
 
 .chart-line {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    margin: 20px 0 30px 24px;
+  margin: 20px 0 30px 24px;
 }
 
 .chart-line-wrapper {
-    min-width: 450px;
-    max-width: 900px;
-    width: 100%;
+  min-width: 450px;
+  max-width: 900px;
+  width: 100%;
 }
 
 .chart-doughnut-sizer {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .chart-doughnut {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    margin: 20px 24px 30px 0;
+  margin: 20px 24px 30px 0;
 }
 
 .chart-doughnut-wrapper {
-    min-width: 200px;
-    max-width: 400px;
-    width: 100%;
+  min-width: 200px;
+  max-width: 400px;
+  width: 100%;
 }
 
 .empty-chart {
-    margin-left: 24px;
-    height: 180px;
+  margin-left: 24px;
+  height: 180px;
 }
 
 @media (max-width: 1200px) {
-    .charts {
-        flex-direction: column;
-        align-items: stretch;
-    }
+  .charts {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-    .chart-line-wrapper {
-        min-width: unset;
-        max-width: 550px;
-    }
+  .chart-line-wrapper {
+    min-width: unset;
+    max-width: 550px;
+  }
 
-    .chart-doughnut-wrapper {
-        min-width: unset;
-        max-width: 250px;
-    }
+  .chart-doughnut-wrapper {
+    min-width: unset;
+    max-width: 250px;
+  }
 }
