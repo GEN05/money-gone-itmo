@@ -18,6 +18,7 @@ const applyDto = (user) => {
 class UserService {
     async registration(email, password, firstName, lastName, avatar) {
         const candidate = await UserModel.findOne({email});
+        console.log(candidate);
         if (candidate) {
             throw ApiError.BadRequest(`User with email ${email} already exists`)
         }
@@ -32,7 +33,7 @@ class UserService {
             avatar,
             activationLink
         });
-        await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`);
+        // await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`);
 
         const userDto = applyDto(user);
         const tokens = tokenService.generateTokens({id: userDto.id});
