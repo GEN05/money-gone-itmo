@@ -7,10 +7,6 @@ hr {
     padding: 0;
 }
 
-.transaction-form {
-    padding: 0 12px 0 12px;
-}
-
 .transaction-form_default {
     display: flex;
     flex-direction: row;

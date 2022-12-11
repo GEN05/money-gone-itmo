@@ -1,6 +1,5 @@
 .transactions {
     overflow: auto;
-    padding: 0 12px 0 12px;
 }
 
 .transaction {
@@ -8,7 +7,7 @@
 
     margin: 12px 0 0 0;
     padding: 10px 12px 10px 12px;
-    border-radius: 6px;
+    border-radius: 10px;
 
     box-shadow: 0 2px 5px rgba(13, 63, 103, 0.1);
     background: rgba(255, 255, 255, 1);
@@ -36,7 +35,7 @@
     display: flex;
     flex-direction: column;
 
-    width: 140px;
+    min-width: 100px;
     margin-left: 12px;
 }
 

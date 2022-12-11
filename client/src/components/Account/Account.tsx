@@ -3,7 +3,7 @@ import React, {FC, useContext} from 'react';
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 import avatar from './profile-photo.png'
-import {dateHumanReadable, numberWithCommas} from '../helper'
+import {dateHumanReadableFull, numberWithCommas} from '../helper'
 
 const Account: FC = () => {
     const {store} = useContext(Context);
@@ -19,7 +19,7 @@ const Account: FC = () => {
                     {`$ ${numberWithCommas(store.user.transactions.reduce((acc, t) => acc + t.value, 0))}`}
                 </span>
                 <span>
-                    {dateHumanReadable(new Date(), true)}
+                    {dateHumanReadableFull(new Date(), true)}
                 </span>
             </div>
             <div className='user_info'>

@@ -1,0 +1,64 @@
+h2 {
+    margin-left: 24px;
+}
+
+.charts {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+    padding: 20px 24px 30px 24px;
+
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(13, 63, 103, 0.1);
+    background: rgba(255, 255, 255, 1);
+}
+
+.chart-line-sizer {
+    flex-grow: 8;
+}
+
+.chart-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chart-line-wrapper {
+    min-width: 450px;
+    max-width: 900px;
+    width: 100%;
+}
+
+.chart-doughnut-sizer {
+    flex-grow: 1;
+}
+
+.chart-doughnut {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chart-doughnut-wrapper {
+    min-width: 200px;
+    max-width: 400px;
+    width: 100%;
+}
+
+@media (max-width: 1200px) {
+    .charts {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .chart-line-wrapper {
+        min-width: unset;
+        max-width: 550px;
+    }
+
+    .chart-doughnut-wrapper {
+        min-width: unset;
+        max-width: 250px;
+    }
+}

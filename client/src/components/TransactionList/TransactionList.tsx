@@ -2,7 +2,7 @@ import './TransactionList.css'
 import React, {FC, useContext, useState} from 'react';
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
-import {dateHumanReadable, numberWithCommas} from '../helper'
+import {dateHumanReadableFull, numberWithCommas} from '../helper'
 import {categoryImgs, categoryTitles} from "./categories";
 import {ReactComponent as DeleteIcon} from './delete.svg';
 
@@ -40,10 +40,10 @@ const TransactionList: FC = () => {
 
                                 <div className='transaction_info'>
                                     <span className='transaction_category'>
-                                        {categoryTitles[trns.category]}
+                                        {categoryTitles[trns.category] || 'Other'}
                                     </span>
                                     <span>
-                                        {dateHumanReadable(new Date(trns.date))}
+                                        {dateHumanReadableFull(new Date(trns.date))}
                                     </span>
                                 </div>
 
