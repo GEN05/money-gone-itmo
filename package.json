@@ -1,0 +1,22 @@
+{
+  "name": "money-gone-itmo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "none",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GEN05/money-gone-itmo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GEN05/money-gone-itmo/issues"
+  },
+  "homepage": "https://github.com/GEN05/money-gone-itmo#readme"
+}

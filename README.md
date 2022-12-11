@@ -1,1 +1,1 @@
-# money-gone
+# money-gone-itmo
