@@ -1,9 +1,8 @@
 import {IUser, Transaction} from "../models/IUser";
 import {makeAutoObservable} from "mobx";
 import AuthService from "../services/AuthService";
-import axios from "axios";
 import {AuthResponse} from "../models/response/AuthResponse";
-import {API_URL} from "../http";
+import $api, {API_URL} from "../http";
 import UserService from "../services/UserService";
 import {TrnsType} from "../components/TransactionForm/TransactionForm";
 
@@ -61,7 +60,7 @@ export default class Store {
         this.setLoading(true);
         try {
             const response = await AuthService.registration(email, password, firstName, lastName, avatar);
-            console.log(response)
+            console.log(response);
             localStorage.setItem("token", response.data.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
@@ -75,12 +74,10 @@ export default class Store {
     async logout() {
         try {
             await AuthService.logout();
-            // const response = await AuthService.logout();
             localStorage.removeItem("token");
             this.setAuth(false);
             this.setUser({} as IUser);
-        } catch (e) {
-            // @ts-ignore
+        } catch (e: any) {
             console.log(e.response?.data?.message);
         }
     }
@@ -88,7 +85,7 @@ export default class Store {
     async checkAuth() {
         this.setLoading(true);
         try {
-            const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true});
+            const response = await $api.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true});
             console.log(response);
             localStorage.setItem("token", response.data.accessToken);
             this.setAuth(true);

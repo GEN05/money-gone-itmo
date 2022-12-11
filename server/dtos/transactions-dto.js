@@ -5,4 +5,4 @@ module.exports = class TransactionDto {
         this.category = model.category;
         this.value = model.value;
     }
-}
+};

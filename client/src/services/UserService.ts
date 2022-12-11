@@ -5,7 +5,7 @@ import {TrnsType} from "../components/TransactionForm/TransactionForm";
 
 export default class UserService {
     static async addTransaction(date: number, category: string, value: number): Promise<AxiosResponse<Transaction[]>> {
-        return $api.post<Transaction[]>("/add-transaction", {date, category, value})
+        return $api.post<Transaction[]>("/add-transaction", {date, category, value});
     }
 
     static async deleteTransaction(id: string): Promise<AxiosResponse<Transaction[]>> {

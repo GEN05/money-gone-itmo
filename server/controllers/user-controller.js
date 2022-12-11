@@ -11,8 +11,8 @@ class UserController {
             }
             const {email, password, firstName, lastName, avatar} = req.body;
             const userData = await userService.registration(email, password, firstName, lastName, avatar);
-            res.cookie("refreshToken", userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-            return res.json(userData);
+            res.cookie("refreshToken", userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
+            return await res.json(userData);
         } catch (e) {
             next(e);
         }
@@ -20,10 +20,11 @@ class UserController {
 
     async login(req, res, next) {
         try {
+            console.log(req.body);
             const {email, password} = req.body;
             const userData = await userService.login(email, password);
-            res.cookie("refreshToken", userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-            return res.json(userData);
+            res.cookie("refreshToken", userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
+            return await res.json(userData);
         } catch (e) {
             next(e);
         }
@@ -34,7 +35,7 @@ class UserController {
             const {refreshToken} = req.cookies;
             const token = await userService.logout(refreshToken);
             res.clearCookie("refreshToken");
-            return res.json(token);
+            return await res.json(token);
         } catch (e) {
             next(e);
         }
@@ -54,8 +55,8 @@ class UserController {
         try {
             const {refreshToken} = req.cookies;
             const userData = await userService.refresh(refreshToken);
-            res.cookie("refreshToken", userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-            return res.json(userData);
+            res.cookie("refreshToken", userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
+            return await res.json(userData);
         } catch (e) {
             next(e);
         }
@@ -64,12 +65,8 @@ class UserController {
     async addTransaction(req, res, next) {
         try {
             const {date, category, value} = req.body;
-            // console.log(category, value)
             const userTransactions = await userService.addTransaction(req.user.id, date, category, value);
-            // const transactions = await userService.addTransaction(req.user.id, "12345", category, value);
-            // return res.json(transactions);
-            // console.log(userTransactions)
-            return res.json(userTransactions);
+            return await res.json(userTransactions);
         } catch (e) {
             next(e);
         }
@@ -79,10 +76,7 @@ class UserController {
         try {
             const {id} = req.body;
             const userTransactions = await userService.deleteTransaction(req.user.id, id);
-            // const transactions = await userService.addTransaction(req.user.id, "12345", category, value);
-            // return res.json(transactions);
-            // console.log(userTransactions)
-            return res.json(userTransactions);
+            return await res.json(userTransactions);
         } catch (e) {
             next(e);
         }
@@ -91,12 +85,8 @@ class UserController {
     async addTransactionsFromBank(req, res, next) {
         try {
             const {trnsList} = req.body;
-            console.log(trnsList);
-            const userTransactions = await userService.addTransactionsFromBank(req.user.id, trnsList);
-            // const transactions = await userService.addTransaction(req.user.id, "12345", category, value);
-            // return res.json(transactions);
-            // console.log(userTransactions)
-            return res.json(trnsList);
+            const userTransactionsFromBank = await userService.addTransactionsFromBank(req.user.id, trnsList);
+            return await res.json(userTransactionsFromBank);
         } catch (e) {
             next(e);
         }

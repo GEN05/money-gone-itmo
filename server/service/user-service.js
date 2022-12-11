@@ -23,11 +23,18 @@ class UserService {
         const hashPassword = await bcrypt.hash(password, 3);
         const activationLink = uuid.v4(); // v34fa-asfasf-142saf-sa-asf
 
-        const user = await UserModel.create({email, password: hashPassword, firstName, lastName, avatar, activationLink});
+        const user = await UserModel.create({
+            email,
+            password: hashPassword,
+            firstName,
+            lastName,
+            avatar,
+            activationLink
+        });
         await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`);
 
         const userDto = applyDto(user);
-        const tokens = tokenService.generateTokens({...userDto});
+        const tokens = tokenService.generateTokens({id: userDto.id});
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
         return {...tokens, user: userDto}
@@ -43,6 +50,7 @@ class UserService {
     }
 
     async login(email, password) {
+        console.log(email, password);
         const user = await UserModel.findOne({email});
         if (!user) {
             throw ApiError.BadRequest("No user exists with such email")
@@ -51,19 +59,19 @@ class UserService {
         if (!isPassEquals) {
             throw ApiError.BadRequest("Incorrect password");
         }
-        const userDto = applyDto(user) ;
-        const tokens = tokenService.generateTokens({...userDto});
+        const userDto = applyDto(user);
+        const tokens = tokenService.generateTokens({id: userDto.id});
 
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
         return {...tokens, user: userDto}
     }
 
     async logout(refreshToken) {
-        const token = await tokenService.removeToken(refreshToken);
-        return token;
+        return await tokenService.removeToken(refreshToken);
     }
 
     async refresh(refreshToken) {
+        console.log(refreshToken);
         if (!refreshToken) {
             throw ApiError.UnauthorizedError();
         }
@@ -74,7 +82,7 @@ class UserService {
         }
         const user = await UserModel.findById(userData.id);
         const userDto = applyDto(user);
-        const tokens = tokenService.generateTokens({...userDto});
+        const tokens = tokenService.generateTokens({id: userDto.id});
 
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
         return {...tokens, user: userDto}
@@ -101,7 +109,6 @@ class UserService {
                 {multi: true});
 
         const user = await UserModel.findById(userId);
-        console.log(user);
         return applyDto(user).transactions;
     }
 
@@ -114,7 +121,7 @@ class UserService {
                 {new: true});
 
         const user = await UserModel.findById(userId);
-        return applyDto(user).transactions;
+        return applyDto(user).transactionsFromBank;
     }
 }
 

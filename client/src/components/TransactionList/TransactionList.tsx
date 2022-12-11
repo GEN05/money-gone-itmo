@@ -3,8 +3,8 @@ import React, {FC, useContext, useState} from "react";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 import {dateHumanReadableFull, numberWithCommas} from "../helper"
-import {categoryImgs, categoryTitles} from "./categories";
-import {ReactComponent as DeleteIcon} from "./delete.svg";
+import {categoryImgs, categoryTinkoffImgs, categoryTitles} from "../../images/categories";
+import {ReactComponent as DeleteIcon} from "../../images/delete.svg";
 
 interface TransactionListProps {
     trnsList: string,
@@ -12,7 +12,7 @@ interface TransactionListProps {
 
 const TransactionList: FC<TransactionListProps> = ({trnsList}) => {
     const {store} = useContext(Context);
-    const [activeTrns, setActiveTrns] = useState<string>("")
+    const [activeTrns, setActiveTrns] = useState<string>("");
 
     // console.log(`in list ${trnsList}`)
 
@@ -85,7 +85,7 @@ const TransactionList: FC<TransactionListProps> = ({trnsList}) => {
                         >
                             <img
                                 className="transaction_category_img"
-                                src={categoryImgs[trns.category] || categoryImgs["other"]}
+                                src={categoryTinkoffImgs[trns.category] || categoryImgs["other"]}
                                 alt={trns.category}
                             />
 

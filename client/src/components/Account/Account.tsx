@@ -4,16 +4,16 @@ import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 import avatarCat from "../../images/avatar-cat.png"
 import avatarDog from "../../images/avatar-dog.png"
-import {dateHumanReadableFull, numberWithCommas} from "../helper"
+import {dateHumanReadableMonthYear, numberWithCommas, trnsFromLastMonth} from "../helper"
 
 type mapAvatarType = {
     [key: string]: string;
 };
 
 const mapAvatar: mapAvatarType = {
-    "cat" : avatarCat,
-    "dog" : avatarDog,
-}
+    "cat": avatarCat,
+    "dog": avatarDog,
+};
 
 const Account: FC = () => {
     const {store} = useContext(Context);
@@ -22,18 +22,29 @@ const Account: FC = () => {
         return null
     }
 
+    const {maxDate, cashLastMonth, cardLastMonth} = trnsFromLastMonth(store.user.transactions, store.user.transactionsFromBank);
+
+    const spendByCash = cashLastMonth.reduce((acc, t) => acc + t.value, 0);
+    const spendByCard = cardLastMonth.reduce((acc, t) => acc + t.value, 0);
+
     return (
         <div className="account">
             <div className="account_info">
                 <span className="account_balance">
-                    {`$ ${numberWithCommas(store.user.transactions.reduce((acc, t) => acc + t.value, 0))}`}
+                    {`$ ${numberWithCommas(spendByCash + spendByCard)}`}
                 </span>
                 <span>
-                    {dateHumanReadableFull(new Date(), true)}
+                    {`By cash: ${numberWithCommas(spendByCash)}`}
+                </span>
+                <span>
+                    {`By card: ${numberWithCommas(spendByCard)}`}
+                </span>
+                <span>
+                    {`In ${dateHumanReadableMonthYear(new Date(maxDate), true)}`}
                 </span>
             </div>
             <div className="user_info">
-                <img className="avatar" src={mapAvatar[store.user.avatar]}/>
+                <img className="avatar" src={mapAvatar[store.user.avatar]} alt="avatar"/>
                 <div className="user_info_actions">
                     <span className="user_info_name">
                         {store.user.firstName} {store.user.lastName}

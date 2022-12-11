@@ -5,9 +5,7 @@ import {Transaction} from "../../../models/IUser";
 import {Line} from 'react-chartjs-2';
 import {
     dateHumanReadableFull,
-    dateHumanReadableMonthYear,
-    dateToYYYYMM,
-    dateToYYYYMMDD
+    dateToYYYYMMDD, trnsFromLastMonth
 } from "../../helper";
 import {
     Chart as ChartJS,
@@ -31,14 +29,14 @@ ChartJS.register(
     Legend
 );
 
-const trnsToDataAndLabels = (trns: Transaction[]): [string[], number[]] => {
+const trnsToDataAndLabels = (trns: Transaction[], maxDate: number): [string[], number[]] => {
     const trnsMap = new Map<string, number>();
-    const maxDate: string = dateToYYYYMMDD(new Date(Math.max(...trns.map(t => t.date))));
-    const maxDay: number = Number(maxDate.split('-')[2]);
+    const maxDateStr: string = dateToYYYYMMDD(new Date(maxDate));
+    const maxDay: number = Number(maxDateStr.split('-')[2]);
 
     for (let i = 1; i <= maxDay; i++) {
         const iDate =
-            maxDate
+            maxDateStr
                 .split('-')
                 .splice(0, 2)
                 .join('-') + '-' + (i > 9 ? String(i) : '0' + String(i));
@@ -59,28 +57,58 @@ const trnsToDataAndLabels = (trns: Transaction[]): [string[], number[]] => {
     return [Array.from(trnsMap.keys()), Array.from(trnsMap.values())];
 };
 
+const includesNotNan = (array: number[]): boolean => {
+    for (let element of array) {
+        if (!isNaN(element)) {
+            return true;
+        }
+    }
+    return false;
+};
+
 const skipped = (ctx: ScriptableLineSegmentContext, value: any) => ctx.p0.skip || ctx.p1.skip ? value : undefined;
 
 const ChartLine: FC = () => {
     const {store} = useContext(Context);
 
-    const curMonthTrns = [...store.user.transactions].filter(t => dateToYYYYMM(new Date()) === dateToYYYYMM(new Date(t.date)))
-    const [labels, trnsData]: [string[], number[]] = trnsToDataAndLabels(curMonthTrns);
+    const {maxDate, cashLastMonth, cardLastMonth} = trnsFromLastMonth(store.user.transactions, store.user.transactionsFromBank);
+
+    const [labels, trns]: [string[], number[]] = trnsToDataAndLabels(cashLastMonth, maxDate);
+    const [, trnsFromBank]: [string[], number[]] = trnsToDataAndLabels(cardLastMonth, maxDate);
+
+    const datasets = [];
+
+    if (includesNotNan(trns)) {
+        datasets.push({
+            label: 'Expenses by cash',
+            data: trns,
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            segment: {
+                borderColor: (ctx: ScriptableLineSegmentContext) => skipped(ctx, 'rgba(255, 99, 132, 0.5)'),
+                borderDash: (ctx: ScriptableLineSegmentContext) => skipped(ctx, [6, 6]),
+            },
+            spanGaps: true
+        })
+    }
+
+    if (includesNotNan(trnsFromBank)) {
+        datasets.push({
+            label: 'Expenses by card',
+            data: trnsFromBank,
+            borderColor: 'rgb(102,204,206)',
+            backgroundColor: 'rgba(102,204,206, 0.5)',
+            segment: {
+                borderColor: (ctx: ScriptableLineSegmentContext) => skipped(ctx, 'rgba(102,204,206, 0.5)'),
+                borderDash: (ctx: ScriptableLineSegmentContext) => skipped(ctx, [6, 6]),
+            },
+            spanGaps: true
+        })
+    }
+
     const data = {
         labels,
-        datasets: [
-            {
-                label: 'Expenses in ' + dateHumanReadableMonthYear(new Date()),
-                data: trnsData,
-                borderColor: 'rgb(255, 99, 132)',
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                segment: {
-                    borderColor: (ctx: ScriptableLineSegmentContext) => skipped(ctx, 'rgb(0,0,0,0.2)'),
-                    borderDash: (ctx: ScriptableLineSegmentContext) => skipped(ctx, [6, 6]),
-                },
-                spanGaps: true
-            },
-        ],
+        datasets
     };
 
     const options = {
