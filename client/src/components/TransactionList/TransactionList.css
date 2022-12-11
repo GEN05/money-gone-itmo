@@ -1,63 +1,63 @@
 .transactions {
-    overflow: auto;
+  overflow: auto;
 }
 
 .transaction {
-    margin: 12px 0 0 0;
-    padding: 10px 12px 10px 12px;
-    min-width: 240px;
+  margin: 12px 0 0 0;
+  padding: 10px 12px 10px 12px;
+  min-width: 240px;
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
-    box-shadow: 0 2px 5px rgba(13, 63, 103, 0.1);
-    background: rgba(255, 255, 255, 1);
-    border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(13, 63, 103, 0.1);
+  background: rgba(255, 255, 255, 1);
+  border-radius: 10px;
 
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .cursor-disabled {
-    cursor: default;
+  cursor: default;
 }
 
 .transaction:first-child {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .transaction:last-child {
-    margin-bottom: 12px;
+  margin-bottom: 12px;
 }
 
 .transaction_info {
-    min-width: 100px;
-    margin-left: 12px;
+  min-width: 100px;
+  margin-left: 12px;
 
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .transaction_category_img {
-    width: 40px;
-    height: 40px;
+  width: 40px;
+  height: 40px;
 }
 
 .transaction_category {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .transaction_value {
-    margin-top: 4px;
-    margin-left: auto;
+  margin-top: 4px;
+  margin-left: auto;
 
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .transaction_delete {
-    margin: 6px 0 4px 6px;
-    width: 32px;
-    height: 32px;
+  margin: 6px 0 4px 6px;
+  width: 32px;
+  height: 32px;
 
-    cursor: pointer;
+  cursor: pointer;
 }

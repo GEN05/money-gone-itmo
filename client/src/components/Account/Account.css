@@ -1,78 +1,78 @@
 .account {
-    min-width: 330px;
+  min-width: 330px;
 
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .account_info {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 .account_info *:not(:first-child) {
-    font-size: small;
-    color: #888888;
+  font-size: small;
+  color: #888888;
 }
 
 .account_balance {
-    font-family: ManropeBold;
-    font-size: xx-large;
-    white-space: nowrap;
+  font-family: ManropeBold;
+  font-size: xx-large;
+  white-space: nowrap;
 
-    color: #323232;
+  color: #323232;
 }
 
 .avatar {
-    width: 64px;
-    height: 64px;
+  width: 64px;
+  height: 64px;
 }
 
 .user_info {
-    margin-left: 16px;
+  margin-left: 16px;
 
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 }
 
 .user_info_actions {
-    margin-left: 16px;
-    height: auto;
+  margin-left: 16px;
+  height: auto;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .logout {
-    cursor: pointer;
-    font-weight: bold;
+  cursor: pointer;
+  font-weight: bold;
 }
 
 .user_info_name {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 .email-verification {
-    font-style: italic;
+  font-style: italic;
 }
 
 @media (max-width: 800px) {
-    .account {
-        min-width: 250px;
-    }
+  .account {
+    min-width: 250px;
+  }
 }
 
 @media (max-width: 320px) {
-    .avatar {
-        height: unset;
-        width: unset;
-        display: none;
-    }
+  .avatar {
+    height: unset;
+    width: unset;
+    display: none;
+  }
 }

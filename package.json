@@ -8,6 +8,7 @@
     "server"
   ],
   "scripts": {
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,13 @@
   "bugs": {
     "url": "https://github.com/GEN05/money-gone-itmo/issues"
   },
-  "homepage": "https://github.com/GEN05/money-gone-itmo#readme"
+  "homepage": "https://github.com/GEN05/money-gone-itmo#readme",
+  "devDependencies": {
+    "husky": "^8.0.2",
+    "lint-staged": "^13.1.0",
+    "prettier": "2.8.1"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  }
 }

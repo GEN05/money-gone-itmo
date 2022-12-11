@@ -1,26 +1,26 @@
 .request-reset-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    overflow: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: auto;
 
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 
-    background: #f6f6f6;
+  background: #f6f6f6;
 }
 
 .request-reset-wrapper a {
-    position: fixed;
-    top: 25px;
-    left: 25px;
-    font-weight: bold;
+  position: fixed;
+  top: 25px;
+  left: 25px;
+  font-weight: bold;
 }
 
 .request-reset {
-    margin-top: 100px;
-    display: flex;
-    flex-direction: column;
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
 }

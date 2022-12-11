@@ -2,180 +2,194 @@ const UserModel = require("../models/user-model");
 const TokenModel = require("../models/token-model");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
-const mailService = require("./mail-service");
+// const mailService = require("./mail-service");
 const tokenService = require("./token-service");
 const UserDto = require("../dtos/user-dto");
 const TransactionsDto = require("../dtos/transactions-dto");
 const ApiError = require("../exceptions/api-error");
 
 const applyDto = (user) => {
-    let userDto = (new UserDto(user));
-    userDto.transactions = userDto.transactions.map(trns => new TransactionsDto(trns));
-    userDto.transactionsFromBank = userDto.transactionsFromBank.map(trns => new TransactionsDto(trns));
-    return userDto;
+  let userDto = new UserDto(user);
+  userDto.transactions = userDto.transactions.map(
+    (trns) => new TransactionsDto(trns)
+  );
+  userDto.transactionsFromBank = userDto.transactionsFromBank.map(
+    (trns) => new TransactionsDto(trns)
+  );
+  return userDto;
 };
 
 class UserService {
-    async registration(email, password, firstName, lastName, avatar) {
-        const candidate = await UserModel.findOne({email});
-        console.log(candidate);
-        if (candidate) {
-            throw ApiError.BadRequest(`User with email ${email} already exists`)
-        }
-        const hashPassword = await bcrypt.hash(password, 3);
-        const activationLink = uuid.v4(); // v34fa-asfasf-142saf-sa-asf
+  async registration(email, password, firstName, lastName, avatar) {
+    const candidate = await UserModel.findOne({ email });
+    if (candidate) {
+      throw ApiError.BadRequest(`User with email ${email} already exists`);
+    }
+    const hashPassword = await bcrypt.hash(password, 3);
+    const activationLink = uuid.v4(); // v34fa-asfasf-142saf-sa-asf
 
-        const user = await UserModel.create({
-            email,
-            password: hashPassword,
-            firstName,
-            lastName,
-            avatar,
-            activationLink
-        });
-        // await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`);
+    const user = await UserModel.create({
+      email,
+      password: hashPassword,
+      firstName,
+      lastName,
+      avatar,
+      activationLink,
+    });
+    // await mailService.sendActivationMail(
+    //   email,
+    //   `${process.env.API_URL}/api/activate/${activationLink}`
+    // );
 
-        const userDto = applyDto(user);
-        const tokens = tokenService.generateTokens({id: userDto.id});
-        await tokenService.saveToken(userDto.id, tokens.refreshToken);
+    const userDto = applyDto(user);
+    const tokens = tokenService.generateTokens({ id: userDto.id });
+    await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
-        return {...tokens, user: userDto}
+    return { ...tokens, user: userDto };
+  }
+
+  async activate(activationLink) {
+    const user = await UserModel.findOne({ activationLink });
+    if (!user) {
+      throw ApiError.BadRequest("Incorrect activation link");
+    }
+    user.isActivated = true;
+    await user.save();
+  }
+
+  async requestPasswordReset(email) {
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      throw ApiError.BadRequest("Email does not exist");
     }
 
-    async activate(activationLink) {
-        const user = await UserModel.findOne({activationLink});
-        if (!user) {
-            throw ApiError.BadRequest("Incorrect activation link")
-        }
-        user.isActivated = true;
-        await user.save();
+    const userDto = applyDto(user);
+    if (!userDto.isActivated) {
+      throw ApiError.BadRequest("Email does not activated");
     }
 
-    async requestPasswordReset(email) {
-        const user = await UserModel.findOne({email});
-        if (!user) {
-            throw ApiError.BadRequest("Email does not exist");
-        }
+    let token = await TokenModel.findOne({ user: userDto.id });
+    if (token) await token.deleteOne();
 
-        const userDto = applyDto(user);
-        if (!userDto.isActivated) {
-            throw ApiError.BadRequest("Email does not activated");
-        }
+    const { refreshToken, resetToken } = tokenService.generateTokens({
+      id: userDto.id,
+    });
+    // await tokenService.saveToken(userDto.id, tokens.refreshToken);
+    await TokenModel.create({
+      user: userDto.id,
+      refreshToken,
+      resetToken,
+      createdAt: Date.now(),
+    });
 
-        let token = await TokenModel.findOne({ user: userDto.id });
-        if (token) await token.deleteOne();
+    const link = `${process.env.CLIENT_URL}/reset-password/${resetToken}/${userDto.id}`;
 
-        const {refreshToken, resetToken} = tokenService.generateTokens({id: userDto.id});
-        // await tokenService.saveToken(userDto.id, tokens.refreshToken);
-        await TokenModel.create({user: userDto.id, refreshToken, resetToken, createdAt: Date.now()});
+    // await mailService.sendResetMail(userDto.email, link);
 
-        const link = `${process.env.CLIENT_URL}/reset-password/${resetToken}/${userDto.id}`;
+    return link;
+  }
 
-        await mailService.sendResetMail(userDto.email, link);
+  async resetPassword(userId, resetToken, password) {
+    let passwordResetToken = await TokenModel.findOne({ user: userId });
 
-        return link;
+    if (!passwordResetToken) {
+      throw ApiError.BadRequest("Invalid or expired password reset token");
     }
 
-    async resetPassword(userId, resetToken, password) {
-        let passwordResetToken = await TokenModel.findOne({ user: userId });
-
-        if (!passwordResetToken) {
-            throw ApiError.BadRequest("Invalid or expired password reset token");
-        }
-
-        const userData = tokenService.validateResetToken(resetToken);
-        if (!userData) {
-            throw ApiError.BadRequest("Invalid or expired password reset token")
-        }
-
-        const hashPassword = await bcrypt.hash(password, 3);
-
-        await UserModel.updateOne(
-            { _id: userId },
-            { $set: { password: hashPassword } },
-            { new: true }
-        );
-
-        const user = await UserModel.findById({ _id: userId });
-        const userDto = applyDto(user);
-        await mailService.sendSuccessMail(userDto.email);
-        await passwordResetToken.deleteOne();
-
-        return true;
+    const userData = tokenService.validateResetToken(resetToken);
+    if (!userData) {
+      throw ApiError.BadRequest("Invalid or expired password reset token");
     }
 
-    async login(email, password) {
-        const user = await UserModel.findOne({email});
-        if (!user) {
-            throw ApiError.BadRequest("No user exists with such email")
-        }
-        const isPassEquals = await bcrypt.compare(password, user.password);
-        if (!isPassEquals) {
-            throw ApiError.BadRequest("Incorrect password");
-        }
-        const userDto = applyDto(user);
-        const tokens = tokenService.generateTokens({id: userDto.id});
+    const hashPassword = await bcrypt.hash(password, 3);
 
-        await tokenService.saveToken(userDto.id, tokens.refreshToken);
-        return {...tokens, user: userDto}
+    await UserModel.updateOne(
+      { _id: userId },
+      { $set: { password: hashPassword } },
+      { new: true }
+    );
+
+    const user = await UserModel.findById({ _id: userId });
+    const userDto = applyDto(user);
+    // await mailService.sendSuccessMail(userDto.email);
+    await passwordResetToken.deleteOne();
+
+    return true;
+  }
+
+  async login(email, password) {
+    const user = await UserModel.findOne({ email });
+    if (!user) {
+      throw ApiError.BadRequest("No user exists with such email");
     }
-
-    async logout(refreshToken) {
-        return await tokenService.removeToken(refreshToken);
+    const isPassEquals = await bcrypt.compare(password, user.password);
+    if (!isPassEquals) {
+      throw ApiError.BadRequest("Incorrect password");
     }
+    const userDto = applyDto(user);
+    const tokens = tokenService.generateTokens({ id: userDto.id });
 
-    async refresh(refreshToken) {
-        if (!refreshToken) {
-            throw ApiError.UnauthorizedError();
-        }
-        const userData = tokenService.validateRefreshToken(refreshToken);
-        const tokenFromDb = await tokenService.findToken(refreshToken);
-        if (!userData || !tokenFromDb) {
-            throw ApiError.UnauthorizedError();
-        }
-        const user = await UserModel.findById(userData.id);
-        const userDto = applyDto(user);
-        const tokens = tokenService.generateTokens({id: userDto.id});
+    await tokenService.saveToken(userDto.id, tokens.refreshToken);
+    return { ...tokens, user: userDto };
+  }
 
-        await tokenService.saveToken(userDto.id, tokens.refreshToken);
-        return {...tokens, user: userDto}
+  async logout(refreshToken) {
+    return await tokenService.removeToken(refreshToken);
+  }
+
+  async refresh(refreshToken) {
+    if (!refreshToken) {
+      throw ApiError.UnauthorizedError();
     }
-
-    async addTransaction(userId, date, category, value) {
-        await UserModel
-            .findById(userId)
-            .updateOne(
-                {},
-                {$push: {"transactions": {date: date, category: category, value: value}}},
-                {new: true});
-
-        const user = await UserModel.findById(userId);
-        return applyDto(user).transactions;
+    const userData = tokenService.validateRefreshToken(refreshToken);
+    const tokenFromDb = await tokenService.findToken(refreshToken);
+    if (!userData || !tokenFromDb) {
+      throw ApiError.UnauthorizedError();
     }
+    const user = await UserModel.findById(userData.id);
+    const userDto = applyDto(user);
+    const tokens = tokenService.generateTokens({ id: userDto.id });
 
-    async deleteTransaction(userId, trnsId) {
-        await UserModel
-            .findById(userId)
-            .updateOne(
-                {},
-                {$pull: {"transactions": {_id: trnsId}}},
-                {multi: true});
+    await tokenService.saveToken(userDto.id, tokens.refreshToken);
+    return { ...tokens, user: userDto };
+  }
 
-        const user = await UserModel.findById(userId);
-        return applyDto(user).transactions;
-    }
+  async addTransaction(userId, date, category, value) {
+    await UserModel.findById(userId).updateOne(
+      {},
+      {
+        $push: {
+          transactions: { date: date, category: category, value: value },
+        },
+      },
+      { new: true }
+    );
 
-    async addTransactionsFromBank(userId, trnsList) {
-        await UserModel
-            .findById(userId)
-            .updateOne(
-                {},
-                {$set: {"transactionsFromBank": trnsList}},
-                {new: true});
+    const user = await UserModel.findById(userId);
+    return applyDto(user).transactions;
+  }
 
-        const user = await UserModel.findById(userId);
-        return applyDto(user).transactionsFromBank;
-    }
+  async deleteTransaction(userId, trnsId) {
+    await UserModel.findById(userId).updateOne(
+      {},
+      { $pull: { transactions: { _id: trnsId } } },
+      { multi: true }
+    );
+
+    const user = await UserModel.findById(userId);
+    return applyDto(user).transactions;
+  }
+
+  async addTransactionsFromBank(userId, trnsList) {
+    await UserModel.findById(userId).updateOne(
+      {},
+      { $set: { transactionsFromBank: trnsList } },
+      { new: true }
+    );
+
+    const user = await UserModel.findById(userId);
+    return applyDto(user).transactionsFromBank;
+  }
 }
 
 module.exports = new UserService();
