@@ -109,8 +109,8 @@ class UserService {
       { new: true }
     );
 
-    const user = await UserModel.findById({ _id: userId });
-    const userDto = applyDto(user);
+    // const user = await UserModel.findById({ _id: userId });
+    // const userDto = applyDto(user);
     // await mailService.sendSuccessMail(userDto.email);
     await passwordResetToken.deleteOne();
 
