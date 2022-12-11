@@ -62,11 +62,6 @@ const StartPage: FC = () => {
                     <button
                         onClick={async () => {
                             await store.login(email, password);
-                            // @ts-ignore
-                            if (location.state?.from) {
-                                // @ts-ignore
-                                navigate(location.state.from);
-                            }
 
                             navigate("/profile");
                         }}
@@ -114,7 +109,10 @@ const StartPage: FC = () => {
                     <div className="avatars">
                         <div className="avatar-input">
                             <input
-                                onChange={(e) => {setAvatar(e.target.value); console.log(e.target.value)}}
+                                onChange={(e) => {
+                                    setAvatar(e.target.value);
+                                    console.log(e.target.value)
+                                }}
                                 type="radio"
                                 id="avatarDog"
                                 value="dog"
@@ -126,7 +124,10 @@ const StartPage: FC = () => {
                         </div>
                         <div className="avatar-input">
                             <input
-                                onChange={(e) => {setAvatar(e.target.value); console.log(e.target.value)}}
+                                onChange={(e) => {
+                                    setAvatar(e.target.value);
+                                    console.log(e.target.value)
+                                }}
                                 type="radio"
                                 id="avatarCat"
                                 value="cat"
@@ -153,7 +154,16 @@ const StartPage: FC = () => {
                         autoComplete="off"
                         placeholder="Password"
                     />
-                    <button onClick={() => store.registration(newEmail, newPassword, firstName, lastName, avatar)}>
+                    <button onClick={async () => {
+                        await store.registration(newEmail, newPassword, firstName, lastName, avatar);
+                        // @ts-ignore
+                        if (location.state?.from) {
+                            // @ts-ignore
+                            navigate(location.state.from);
+                        }
+
+                        navigate("/profile");
+                    }}>
                         register
                     </button>
                 </div>

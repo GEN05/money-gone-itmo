@@ -63,6 +63,7 @@ export default class Store {
             this.setUser(response.data.user);
         } catch (e: any) {
             console.log(e.response?.data?.message);
+            alert("Such user exists");
         } finally {
             this.setLoading(false);
         }

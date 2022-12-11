@@ -2,7 +2,6 @@
   "name": "test-client",
   "version": "0.1.0",
   "private": true,
-  "proxy" : "http://localhost:5000/api",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^11.2.7",
@@ -27,8 +26,8 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

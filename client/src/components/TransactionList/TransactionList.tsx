@@ -14,14 +14,16 @@ const TransactionList: FC<TransactionListProps> = ({trnsList}) => {
     const {store} = useContext(Context);
     const [activeTrns, setActiveTrns] = useState<string>("");
 
-    // console.log(`in list ${trnsList}`)
-
     if (!store.isAuth) {
         return null;
     }
 
-    if (!store.user.transactionsFromBank || store.user.transactionsFromBank.length === 0) {
+    if (trnsList === "cash" && (!store.user.transactions || store.user.transactions.length === 0)) {
         return <div className="transactions"><span>ADD NEW TRANSACTION!</span></div>
+    }
+
+    if (trnsList === "bank" && (!store.user.transactionsFromBank || store.user.transactionsFromBank.length === 0)) {
+        return <div className="transactions"><span>UPLOAD NEW BANK STATEMENT</span></div>
     }
 
     return (

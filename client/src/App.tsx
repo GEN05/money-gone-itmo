@@ -3,7 +3,6 @@ import React, {FC, useContext, useEffect, useState} from "react";
 import {Context} from "./index";
 import {Navigate, useLocation} from "react-router-dom";
 import {observer} from "mobx-react-lite";
-import StartPage from "./components/StartPage/StartPage";
 import Account from "./components/Account/Account";
 import TransactionForm from "./components/TransactionForm/TransactionForm";
 import TransactionList from "./components/TransactionList/TransactionList";
