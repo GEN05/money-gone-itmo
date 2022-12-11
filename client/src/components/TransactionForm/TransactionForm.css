@@ -8,7 +8,7 @@
 }
 
 .transaction-form_active {
-    margin-top: 16px;
+    padding: 0 10px 0 4px;
 
     display: flex;
     flex-direction: row;
@@ -16,9 +16,46 @@
     justify-content: space-between;
 }
 
+.transaction-form_add {
+    /*margin-left: auto;*/
+    width: 32px;
+    height: 32px;
+
+    cursor: pointer;
+}
+
+.transaction-form_info {
+    width: 22px;
+    height: 22px;
+}
+
+.transaction-form_submit {
+    width: 28px;
+    height: 28px;
+    margin: 0 18px;
+
+    cursor: pointer;
+}
+
+.transaction-form_close {
+    /*margin-left: auto;*/
+    width: 18px;
+    height: 18px;
+
+    cursor: pointer;
+}
+
+/* cash form */
+
 .transaction-form_inputs {
     display: flex;
     flex-direction: row;
+}
+
+.transaction-form_icons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .transaction-form_select {
@@ -35,20 +72,13 @@
     border-radius: 4px;
 }
 
-.transaction-form_submit {
-    width: 32px;
-    height: 32px;
-    margin: 0 12px;
-
-    cursor: pointer;
+.transaction-form_input:hover {
+    border: 1px solid #9a9a9a;
 }
 
-.transaction-form_close {
-    margin-left: auto;
-    width: 32px;
-    height: 32px;
-
-    cursor: pointer;
+.transaction-form_input:focus {
+    outline: none !important;
+    border: 2px solid #2684ff;
 }
 
 .transaction-form-wrapper hr {
@@ -58,6 +88,68 @@
     border-top: 1px solid #ccc;
     margin: 1em 0;
     padding: 0;
+}
+
+/* bank statement form */
+
+#file {
+    max-width: 280px;
+    /*display:none;*/
+    display: flex;
+    flex-direction: column;
+}
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    top: 100%;
+    left: 50%;
+    margin-top: 8px;
+    margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltiptext a {
+    color: yellow;
+}
+
+.tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;  /* At the top of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+}
+
+/*.tooltip .tooltiptext {*/
+/*    width: 120px;*/
+/*    top: 100%;*/
+/*    left: 50%;*/
+/*    margin-left: -60px; !* Use half of the width (120/2 = 60), to center the tooltip *!*/
+/*}*/
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
 }
 
 /* toggle (Cash / Bank statement) */
@@ -86,9 +178,10 @@
     transition: all 0.3s ease;
 }
 
-input[type="radio"]{
+.toggle-wrapper input[type="radio"]{
     display: none;
 }
+
 #option-1:checked:checked ~ .option-1,
 #option-2:checked:checked ~ .option-2{
     border-color: #10afb2;

@@ -20,7 +20,6 @@ class UserController {
 
     async login(req, res, next) {
         try {
-            console.log(req.body);
             const {email, password} = req.body;
             const userData = await userService.login(email, password);
             res.cookie("refreshToken", userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true});
@@ -45,7 +44,27 @@ class UserController {
         try {
             const activationLink = req.params.link;
             await userService.activate(activationLink);
-            return res.redirect(process.env.CLIENT_URL);
+            return res.redirect(307, process.env.CLIENT_URL);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async requestPasswordReset(req, res, next) {
+        try {
+            const {email} = req.body;
+            const requestPasswordResetService = await userService.requestPasswordReset(email);
+            return await res.send();
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async resetPassword(req, res, next) {
+        try {
+            const {userId, resetToken, password} = req.body;
+            await userService.resetPassword(userId, resetToken, password);
+            return await res.send();
         } catch (e) {
             next(e);
         }

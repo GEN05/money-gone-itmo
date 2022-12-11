@@ -1,3 +1,36 @@
+@font-face {
+    font-family: "ManropeBold";
+    src: url("./fonts/Manrope-Bold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "ManropeMedium";
+    src: url("./fonts/Manrope-Medium.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: "ManropeRegular";
+    src: url("./fonts/Manrope-Regular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+
+h1 {
+    font-family: ManropeBold;
+}
+
+h2 {
+    font-family: ManropeMedium;
+}
+
+* {
+    font-family: ManropeRegular;
+}
+
 /* adaptive blocks to separate application functionality */
 
 .main-window {
@@ -12,12 +45,22 @@
     flex-direction: row;
     justify-content: space-between;
 
+    padding: 12px 0 24px 0;
+
     background: #f6f6f6;
 
     /*background: linear-gradient(-45deg, #f49d5d, #ff4331, #d429c3);*/
     /*opacity: 0.8;*/
     /*background-size: 400% 400%;*/
     /*animation: gradient 15s ease infinite;*/
+}
+
+.main-window > hr {
+    margin: 24px 0 0 0;
+    border: none;
+    border-left: 2px solid #d3d3d3;
+    height: auto;
+    width: 1px;
 }
 
 /*@keyframes gradient {*/

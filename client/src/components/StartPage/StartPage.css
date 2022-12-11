@@ -15,6 +15,23 @@
     border-radius: 6px;
 }
 
+.startpage-form a {
+    margin-right: auto;
+}
+
+.startpage-form input {
+    margin-top: 10px;
+    padding: 2px 8px;
+    /*width: 200px;*/
+
+    border: 1px solid #ccccccf2;
+    border-radius: 4px;
+}
+
+.startpage-form button {
+    margin-top: 10px;
+}
+
 .startpage-actions {
     display: flex;
     flex-direction: row;
@@ -31,12 +48,15 @@
 
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 .avatars {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+
+    width: 100%;
 }
 
 .avatar {
@@ -46,6 +66,6 @@
 
 .avatar-input {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
 }

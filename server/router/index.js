@@ -14,6 +14,8 @@ router.post("/registration",
 router.post("/login", userController.login);
 router.post("/logout", userController.logout);
 router.get("/activate/:link", userController.activate);
+router.post("/request-reset-password", userController.requestPasswordReset);
+router.post("/reset-password", userController.resetPassword);
 router.get("/refresh", userController.refresh);
 router.post("/add-transaction", authMiddleware, userController.addTransaction);
 router.post("/delete-transaction", authMiddleware, userController.deleteTransaction);

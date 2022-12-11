@@ -14,10 +14,17 @@
     white-space: nowrap;
 }
 
+.account_info *:not(:first-child) {
+    font-size: small;
+    color: #888888;
+}
+
 .account_balance {
+    font-family: ManropeBold;
     font-size: xx-large;
-    font-weight: bold;
     white-space: nowrap;
+
+    color: #323232;
 }
 
 .avatar {
@@ -40,6 +47,12 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    align-items: center;
+}
+
+.logout {
+    cursor: pointer;
+    font-weight: bold;
 }
 
 .user_info_name {

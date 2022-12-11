@@ -20,15 +20,8 @@ const TransactionList: FC<TransactionListProps> = ({trnsList}) => {
         return null;
     }
 
-    if (trnsList === "cash" && (!store.user.transactions || store.user.transactions.length === 0)) {
-        return <div className="transactions"><span>NO TRANSACTIONS FOUND</span></div>
-    }
-
-    if (trnsList === "bank" && (!store.user.transactionsFromBank || store.user.transactionsFromBank.length === 0)) {
-        return <div className="transactions">
-            <a target="_blank" rel="noreferrer" href="https://www.tinkoff.ru/events/feed/?preset=all">download bank
-                statement in csv format</a>
-        </div>
+    if (!store.user.transactionsFromBank || store.user.transactionsFromBank.length === 0) {
+        return <div className="transactions"><span>ADD NEW TRANSACTION!</span></div>
     }
 
     return (

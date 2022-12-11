@@ -22,7 +22,7 @@ const Account: FC = () => {
         return null
     }
 
-    const {maxDate, cashLastMonth, cardLastMonth} = trnsFromLastMonth(store.user.transactions, store.user.transactionsFromBank);
+    const {cashLastMonth, cardLastMonth} = trnsFromLastMonth(store.user.transactions, store.user.transactionsFromBank);
 
     const spendByCash = cashLastMonth.reduce((acc, t) => acc + t.value, 0);
     const spendByCard = cardLastMonth.reduce((acc, t) => acc + t.value, 0);
@@ -40,7 +40,7 @@ const Account: FC = () => {
                     {`By card: ${numberWithCommas(spendByCard)}`}
                 </span>
                 <span>
-                    {`In ${dateHumanReadableMonthYear(new Date(maxDate), true)}`}
+                    {`In ${dateHumanReadableMonthYear(new Date(), true)}`}
                 </span>
             </div>
             <div className="user_info">
@@ -51,11 +51,11 @@ const Account: FC = () => {
                     </span>
                     <span
                         className="email-verification">
-                        {store.user.isActivated ? `email verified` : `verify email!!!`}
+                        {store.user.isActivated ? null : `verify email!!!`}
                     </span>
-                    <button onClick={() => store.logout()}>
+                    <span className="logout" onClick={() => store.logout()}>
                         log out
-                    </button>
+                    </span>
                 </div>
             </div>
         </div>

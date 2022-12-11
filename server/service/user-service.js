@@ -1,4 +1,5 @@
 const UserModel = require("../models/user-model");
+const TokenModel = require("../models/token-model");
 const bcrypt = require("bcrypt");
 const uuid = require("uuid");
 const mailService = require("./mail-service");
@@ -49,8 +50,60 @@ class UserService {
         await user.save();
     }
 
+    async requestPasswordReset(email) {
+        const user = await UserModel.findOne({email});
+        if (!user) {
+            throw ApiError.BadRequest("Email does not exist");
+        }
+
+        const userDto = applyDto(user);
+        if (!userDto.isActivated) {
+            throw ApiError.BadRequest("Email does not activated");
+        }
+
+        let token = await TokenModel.findOne({ user: userDto.id });
+        if (token) await token.deleteOne();
+
+        const {refreshToken, resetToken} = tokenService.generateTokens({id: userDto.id});
+        // await tokenService.saveToken(userDto.id, tokens.refreshToken);
+        await TokenModel.create({user: userDto.id, refreshToken, resetToken, createdAt: Date.now()});
+
+        const link = `${process.env.CLIENT_URL}/reset-password/${resetToken}/${userDto.id}`;
+
+        await mailService.sendResetMail(userDto.email, link);
+
+        return link;
+    }
+
+    async resetPassword(userId, resetToken, password) {
+        let passwordResetToken = await TokenModel.findOne({ user: userId });
+
+        if (!passwordResetToken) {
+            throw ApiError.BadRequest("Invalid or expired password reset token");
+        }
+
+        const userData = tokenService.validateResetToken(resetToken);
+        if (!userData) {
+            throw ApiError.BadRequest("Invalid or expired password reset token")
+        }
+
+        const hashPassword = await bcrypt.hash(password, 3);
+
+        await UserModel.updateOne(
+            { _id: userId },
+            { $set: { password: hashPassword } },
+            { new: true }
+        );
+
+        const user = await UserModel.findById({ _id: userId });
+        const userDto = applyDto(user);
+        await mailService.sendSuccessMail(userDto.email);
+        await passwordResetToken.deleteOne();
+
+        return true;
+    }
+
     async login(email, password) {
-        console.log(email, password);
         const user = await UserModel.findOne({email});
         if (!user) {
             throw ApiError.BadRequest("No user exists with such email")
@@ -71,7 +124,6 @@ class UserService {
     }
 
     async refresh(refreshToken) {
-        console.log(refreshToken);
         if (!refreshToken) {
             throw ApiError.UnauthorizedError();
         }

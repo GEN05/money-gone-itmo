@@ -75,8 +75,32 @@ const ChartLine: FC = () => {
 
     const [labels, trns]: [string[], number[]] = trnsToDataAndLabels(cashLastMonth, maxDate);
     const [, trnsFromBank]: [string[], number[]] = trnsToDataAndLabels(cardLastMonth, maxDate);
+    // trns and trnsFromBank are same size
+    const trnsTotal: number[] = [];
+    for (let i = 0; i < trns.length; i++) {
+        // sum trns with same label
+        const resultToPush = isNaN(trns[i]) ?
+            isNaN(trnsFromBank[i]) ? NaN : trnsFromBank[i]
+            :
+            isNaN(trnsFromBank[i]) ? trns[i] : trns[i] + trnsFromBank[i];
+        trnsTotal.push(resultToPush);
+    }
 
     const datasets = [];
+
+    if (includesNotNan(trnsTotal)) {
+        datasets.push({
+            label: 'Total expenses',
+            data: trnsTotal,
+            borderColor: 'rgb(102,204,206)',
+            backgroundColor: 'rgba(102,204,206, 0.5)',
+            segment: {
+                borderColor: (ctx: ScriptableLineSegmentContext) => skipped(ctx, 'rgba(102,204,206, 0.5)'),
+                borderDash: (ctx: ScriptableLineSegmentContext) => skipped(ctx, [6, 6]),
+            },
+            spanGaps: true
+        })
+    }
 
     if (includesNotNan(trns)) {
         datasets.push({
@@ -88,21 +112,23 @@ const ChartLine: FC = () => {
                 borderColor: (ctx: ScriptableLineSegmentContext) => skipped(ctx, 'rgba(255, 99, 132, 0.5)'),
                 borderDash: (ctx: ScriptableLineSegmentContext) => skipped(ctx, [6, 6]),
             },
-            spanGaps: true
+            spanGaps: true,
+            hidden: true,
         })
     }
 
     if (includesNotNan(trnsFromBank)) {
         datasets.push({
-            label: 'Expenses by card',
+            label: 'Expenses from bank',
             data: trnsFromBank,
-            borderColor: 'rgb(102,204,206)',
-            backgroundColor: 'rgba(102,204,206, 0.5)',
+            borderColor: 'rgb(209,228,134)',
+            backgroundColor: 'rgba(209,228,134, 0.5)',
             segment: {
-                borderColor: (ctx: ScriptableLineSegmentContext) => skipped(ctx, 'rgba(102,204,206, 0.5)'),
+                borderColor: (ctx: ScriptableLineSegmentContext) => skipped(ctx, 'rgba(209,228,134, 0.5)'),
                 borderDash: (ctx: ScriptableLineSegmentContext) => skipped(ctx, [6, 6]),
             },
-            spanGaps: true
+            spanGaps: true,
+            hidden: true,
         })
     }
 

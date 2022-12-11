@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.1" viewBox="0 0 288 288" xmlns="http://www.w3.org/2000/svg">
+<svg width="288" height="288" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(1.964 1.964) scale(2.8008)" fill="#808080" stroke-miterlimit="10" stroke-width="0">
+<path class="color000 svgShape" d="m45 68.5c-0.552 0-1-0.447-1-1v-45c0-0.552 0.448-1 1-1s1 0.448 1 1v45c0 0.553-0.448 1-1 1z"/>
+<path class="color000 svgShape" d="m67.5 46h-45c-0.552 0-1-0.448-1-1s0.448-1 1-1h45c0.553 0 1 0.448 1 1s-0.447 1-1 1z"/>
+<path class="color000 svgShape" d="M 74.625 90 h -59.25 C 6.897 90 0 83.103 0 74.625 v -59.25 C 0 6.897 6.897 0 15.375 0 h 59.25 C 83.103 0 90 6.897 90 15.375 v 59.25 C 90 83.103 83.103 90 74.625 90 z M 15.375 2 C 8 2 2 8 2 15.375 v 59.25 C 2 82 8 88 15.375 88 h 59.25 C 82 88 88 82 88 74.625 v -59.25 C 88 8 82 2 74.625 2 H 15.375 z"/>
+</g>
+</svg>
+</svg>

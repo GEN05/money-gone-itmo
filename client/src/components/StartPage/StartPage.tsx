@@ -4,9 +4,13 @@ import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
 import avatarCat from "../../images/avatar-cat.png"
 import avatarDog from "../../images/avatar-dog.png"
+import {Link, useLocation, useNavigate} from "react-router-dom";
 
 const StartPage: FC = () => {
     const {store} = useContext(Context);
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const [state, setState] = useState<string>("login");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -18,7 +22,7 @@ const StartPage: FC = () => {
 
     function signInPage() {
         return (
-            <form className="startpage-form">
+            <div className="startpage-form">
                 <div className="startpage-actions">
                     <span
                         className="startpage-action"
@@ -50,17 +54,33 @@ const StartPage: FC = () => {
                         autoComplete="password"
                         placeholder="Password"
                     />
-                    <button onClick={() => store.login(email, password)}>
+                    <Link
+                        to="/request-reset"
+                    >
+                        forgot password?
+                    </Link>
+                    <button
+                        onClick={async () => {
+                            await store.login(email, password);
+                            // @ts-ignore
+                            if (location.state?.from) {
+                                // @ts-ignore
+                                navigate(location.state.from);
+                            }
+
+                            navigate("/profile");
+                        }}
+                    >
                         log in
                     </button>
                 </div>
-            </form>
+            </div>
         )
     }
 
     function signUpPage() {
         return (
-            <form className="startpage-form">
+            <div className="startpage-form">
                 <div className="startpage-actions">
                     <span
                         className="startpage-action"
@@ -93,28 +113,28 @@ const StartPage: FC = () => {
                     <p>Choose profile picture</p>
                     <div className="avatars">
                         <div className="avatar-input">
-                            <label htmlFor="avatarDog">
-                                <img className="avatar" src={avatarDog} alt="Dog avatar"/>
-                            </label>
                             <input
-                                onChange={(e) => setAvatar(e.target.value)}
+                                onChange={(e) => {setAvatar(e.target.value); console.log(e.target.value)}}
                                 type="radio"
                                 id="avatarDog"
                                 value="dog"
                                 checked={avatar === "dog"}
                             />
+                            <label htmlFor="avatarDog">
+                                <img className="avatar" src={avatarDog} alt="Dog avatar"/>
+                            </label>
                         </div>
                         <div className="avatar-input">
-                            <label htmlFor="avatarCat">
-                                <img className="avatar" src={avatarCat} alt="Cat avatar"/>
-                            </label>
                             <input
-                                onChange={(e) => setAvatar(e.target.value)}
+                                onChange={(e) => {setAvatar(e.target.value); console.log(e.target.value)}}
                                 type="radio"
                                 id="avatarCat"
                                 value="cat"
                                 checked={avatar === "cat"}
                             />
+                            <label htmlFor="avatarCat">
+                                <img className="avatar" src={avatarCat} alt="Cat avatar"/>
+                            </label>
                         </div>
                     </div>
                     <input
@@ -137,12 +157,11 @@ const StartPage: FC = () => {
                         register
                     </button>
                 </div>
-            </form>
+            </div>
         )
     }
 
     return (
-
         <div className="startpage">
             {state === "login" && signInPage()}
             {state === "register" && signUpPage()}

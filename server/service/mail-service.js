@@ -18,13 +18,44 @@ class MailService {
         await this.transporter.sendMail({
             from: process.env.SMTP_USER,
             to,
-            subject: "Activate your account on " + process.env.API_URL,
+            subject: "Account activation",
             text: "",
             html:
                 `
                     <div>
                         <h1>To activate your account, follow the link</h1>
                         <a href="${link}">${link}</a>
+                    </div>
+                `
+        })
+    }
+
+    async sendResetMail(to, link) {
+        await this.transporter.sendMail({
+            from: process.env.SMTP_USER,
+            to,
+            subject: "Password recovery",
+            text: "",
+            html:
+                `
+                    <div>
+                        <h1>To reset your password, follow the link</h1>
+                        <a href="${link}">${link}</a>
+                    </div>
+                `
+        })
+    }
+
+    async sendSuccessMail(to) {
+        await this.transporter.sendMail({
+            from: process.env.SMTP_USER,
+            to,
+            subject: "Password recovery",
+            text: "",
+            html:
+                `
+                    <div>
+                        <h1>Password Changed Successfully</h1>
                     </div>
                 `
         })

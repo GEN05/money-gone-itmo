@@ -9,7 +9,7 @@ import {TrnsType} from "../components/TransactionForm/TransactionForm";
 export default class Store {
     user = {} as IUser;
     isAuth = false;
-    isLoading = false;
+    isLoading = true;
 
     constructor() {
         makeAutoObservable(this);
@@ -29,7 +29,6 @@ export default class Store {
 
     setUserTransactionsFromBank(transactionsFromBank: Transaction[]) {
         this.user.transactionsFromBank = transactionsFromBank;
-        console.log(transactionsFromBank)
     }
 
     setLoading(bool: boolean) {
@@ -40,7 +39,6 @@ export default class Store {
         this.setLoading(true);
         try {
             const response = await AuthService.login(email, password);
-            console.log(response);
             localStorage.setItem("token", response.data.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
@@ -60,7 +58,6 @@ export default class Store {
         this.setLoading(true);
         try {
             const response = await AuthService.registration(email, password, firstName, lastName, avatar);
-            console.log(response);
             localStorage.setItem("token", response.data.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
@@ -86,7 +83,6 @@ export default class Store {
         this.setLoading(true);
         try {
             const response = await $api.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true});
-            console.log(response);
             localStorage.setItem("token", response.data.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
@@ -95,6 +91,14 @@ export default class Store {
         } finally {
             this.setLoading(false);
         }
+    }
+
+    async requestPasswordReset(email: string) {
+        return await AuthService.requestPasswordReset(email);
+    }
+
+    async resetPassword(userId: string, resetToken: string, password: string) {
+        return await AuthService.resetPassword(userId, resetToken, password);
     }
 
     async addTransaction(date: number, category: string, value: number) {

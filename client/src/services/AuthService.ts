@@ -19,5 +19,12 @@ export default class AuthService {
         return $api.post("/logout");
     }
 
+    static async requestPasswordReset(email: string): Promise<AxiosResponse<AuthResponse>> {
+        return $api.post<AuthResponse>("/request-reset-password", {email});
+    }
+
+    static async resetPassword(userId: string, resetToken: string, password: string): Promise<AxiosResponse<AuthResponse>> {
+        return $api.post<AuthResponse>("/reset-password", {userId, resetToken, password});
+    }
 }
 

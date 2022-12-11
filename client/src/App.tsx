@@ -1,26 +1,27 @@
 import "./App.css"
 import React, {FC, useContext, useEffect, useState} from "react";
 import {Context} from "./index";
+import {Navigate, useLocation} from "react-router-dom";
 import {observer} from "mobx-react-lite";
 import StartPage from "./components/StartPage/StartPage";
 import Account from "./components/Account/Account";
 import TransactionForm from "./components/TransactionForm/TransactionForm";
 import TransactionList from "./components/TransactionList/TransactionList";
-import Charts from "./components/Charts/Charts";
 
+import Charts from "./components/Charts/Charts";
 import {Chart, registerables} from "chart.js";
 
 Chart.register(...registerables);
 
 const App: FC = () => {
     const {store} = useContext(Context);
+    const location = useLocation();
+
     const [trnsList, setTrnsList] = useState<string>("cash");
 
     useEffect(() => {
-        if (localStorage.getItem("token")) {
-            store.checkAuth()
-        }
-    }, [store])
+        store.checkAuth();
+    }, [store]);
 
     if (store.isLoading) {
         return (
@@ -30,11 +31,7 @@ const App: FC = () => {
     }
 
     if (!store.isAuth) {
-        return (
-            <div className="main-window">
-                <StartPage/>
-            </div>
-        );
+        return <Navigate to="/login" replace state={{from: location}}/>
     }
 
     return (
@@ -43,6 +40,7 @@ const App: FC = () => {
                 <h1>My Dashboard</h1>
                 <Charts/>
             </div>
+            <hr/>
             <div className="transactions-window">
                 <Account/>
                 <TransactionForm trnsList={trnsList} setTrnsList={setTrnsList}/>

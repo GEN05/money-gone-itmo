@@ -3,8 +3,10 @@ import React, {FC, useContext, useState} from "react";
 import Select from "react-select";
 import {Context} from "../../index";
 import {observer} from "mobx-react-lite";
-import {ReactComponent as CancelIcon} from "./cancel.svg";
-import {ReactComponent as SaveIcon} from "./save.svg";
+import {ReactComponent as CancelIcon} from "./close.svg";
+import {ReactComponent as SaveIcon} from "./send.svg";
+import {ReactComponent as AddIcon} from "./add.svg";
+import {ReactComponent as InfoIcon} from "./info.svg";
 
 export type TrnsType = { date: number; category: string; value: number };
 
@@ -56,28 +58,30 @@ const TransactionForm: FC<TransactionFormProps> = ({trnsList, setTrnsList}) => {
                         placeholder="0 $"
                     />
                 </div>
-                <CancelIcon
-                    className="transaction-form_close"
-                    onClick={() => {
-                        setState("default");
-                        setCategory("");
-                        setValue("");
-                    }}
-                />
-                <SaveIcon
-                    className="transaction-form_submit"
-                    onClick={() => {
-                        let val: number = Math.abs(Number(value));
-                        if (isNaN(val) || val === 0) {
-                            alert("Incorrect transaction value");
-                        } else {
-                            console.log(val);
-                            store.addTransaction(Date.now(), category, val);
-                        }
-                        setCategory("");
-                        setValue("");
-                    }}
-                />
+                <div className="transaction-form_icons">
+                    <SaveIcon
+                        className="transaction-form_submit"
+                        onClick={() => {
+                            let val: number = Math.abs(Number(value));
+                            if (isNaN(val) || val === 0) {
+                                alert("Incorrect transaction value");
+                            } else {
+                                console.log(val);
+                                store.addTransaction(Date.now(), category, val);
+                            }
+                            setCategory("");
+                            setValue("");
+                        }}
+                    />
+                    <CancelIcon
+                        className="transaction-form_close"
+                        onClick={() => {
+                            setState("default");
+                            setCategory("");
+                            setValue("");
+                        }}
+                    />
+                </div>
             </div>
             <hr/>
         </div>
@@ -236,7 +240,20 @@ const TransactionForm: FC<TransactionFormProps> = ({trnsList, setTrnsList}) => {
                         id="file"
                         accept="text/csv"
                     />
-                    <button
+                    <div className="tooltip">
+                        <InfoIcon className="transaction-form_info"/>
+                        <span className="tooltiptext">
+                            {"Download bank statement in csv format "}
+                            <a target="_blank"
+                               rel="noreferrer"
+                               href="https://www.tinkoff.ru/events/feed/?preset=all"
+                            >
+                                *click*
+                            </a>
+                        </span>
+                    </div>
+                    <SaveIcon
+                        className="transaction-form_submit"
                         onClick={() => {
                             if (trnsFromFile.length !== 0) {
                                 try {
@@ -246,9 +263,7 @@ const TransactionForm: FC<TransactionFormProps> = ({trnsList, setTrnsList}) => {
                                 }
                             }
                         }}
-                    >
-                        Send
-                    </button>
+                    />
                     <CancelIcon
                         className="transaction-form_close"
                         onClick={() => setState("default")}
@@ -284,7 +299,11 @@ const TransactionForm: FC<TransactionFormProps> = ({trnsList, setTrnsList}) => {
                     <span>Bank</span>
                 </label>
             </div>
-            <button onClick={() => setState("active")}>+</button>
+            <AddIcon
+                className="transaction-form_add"
+                onClick={() => setState("active")}
+            />
+            {/*<button onClick={() => setState("active")}>+</button>*/}
         </div>
     );
 
