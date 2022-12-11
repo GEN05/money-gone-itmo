@@ -1,7 +1,7 @@
 import {IUser, Transaction} from "../models/IUser";
 import {makeAutoObservable} from "mobx";
 import AuthService from "../services/AuthService";
-import axios from 'axios';
+import axios from "axios";
 import {AuthResponse} from "../models/response/AuthResponse";
 import {API_URL} from "../http";
 import UserService from "../services/UserService";
@@ -23,7 +23,7 @@ export default class Store {
         this.user = user;
     }
 
-    setUserTransactions(transactions: [Transaction]) {
+    setUserTransactions(transactions: Transaction[]) {
         this.user.transactions = transactions;
         // console.log(transactions)
     }
@@ -37,13 +37,12 @@ export default class Store {
         try {
             const response = await AuthService.login(email, password);
             console.log(response)
-            localStorage.setItem('token', response.data.accessToken);
+            localStorage.setItem("token", response.data.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
-        } catch (e) {
-            // @ts-ignore
+        } catch (e: any) {
             console.log(e.response?.data?.message);
-            alert('Incorrect password or such user exists')
+            alert("Incorrect password or such user exists")
         } finally {
             this.setLoading(false);
         }
@@ -52,16 +51,16 @@ export default class Store {
     async registration(email: string,
                        password: string,
                        firstName: string,
-                       lastName: string,) {
+                       lastName: string,
+                       avatar: string,) {
         this.setLoading(true);
         try {
-            const response = await AuthService.registration(email, password, firstName, lastName);
+            const response = await AuthService.registration(email, password, firstName, lastName, avatar);
             console.log(response)
-            localStorage.setItem('token', response.data.accessToken);
+            localStorage.setItem("token", response.data.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
-        } catch (e) {
-            // @ts-ignore
+        } catch (e: any) {
             console.log(e.response?.data?.message);
         } finally {
             this.setLoading(false);
@@ -72,7 +71,7 @@ export default class Store {
         try {
             await AuthService.logout();
             // const response = await AuthService.logout();
-            localStorage.removeItem('token');
+            localStorage.removeItem("token");
             this.setAuth(false);
             this.setUser({} as IUser);
         } catch (e) {
@@ -86,11 +85,10 @@ export default class Store {
         try {
             const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true})
             console.log(response);
-            localStorage.setItem('token', response.data.accessToken);
+            localStorage.setItem("token", response.data.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
-        } catch (e) {
-            // @ts-ignore
+        } catch (e: any) {
             console.log(e.response?.data?.message);
         } finally {
             this.setLoading(false);
@@ -101,8 +99,7 @@ export default class Store {
         try {
             const response = await UserService.addTransaction(date, category, value);
             this.setUserTransactions(response.data)
-        } catch (e) {
-            // @ts-ignore
+        } catch (e: any) {
             console.log(e.response?.data?.message);
         }
     }
@@ -111,8 +108,7 @@ export default class Store {
         try {
             const response = await UserService.deleteTransaction(id);
             this.setUserTransactions(response.data)
-        } catch (e) {
-            // @ts-ignore
+        } catch (e: any) {
             console.log(e.response?.data?.message);
         }
     }

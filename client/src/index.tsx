@@ -1,8 +1,8 @@
-import React, {createContext} from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React, {createContext} from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
 import Store from "./store/store";
-import 'normalize.css'
+import "normalize.css"
 
 interface State {
     store: Store,
@@ -16,6 +16,6 @@ ReactDOM.render(
     <Context.Provider value={{store}}>
         <App />
     </Context.Provider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 

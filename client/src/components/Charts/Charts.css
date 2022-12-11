@@ -1,17 +1,19 @@
-h2 {
-    margin-left: 24px;
-}
+/* description of wrapper (.charts) properties for adaptive display of charts */
 
 .charts {
+    padding: 20px 24px 30px 24px;
+
     display: flex;
     flex-direction: row;
     align-items: flex-start;
 
-    padding: 20px 24px 30px 24px;
-
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(13, 63, 103, 0.1);
-    background: rgba(255, 255, 255, 1);
+    background: #ffffff;
+}
+
+.charts h2 {
+    margin-left: 24px;
 }
 
 .chart-line-sizer {

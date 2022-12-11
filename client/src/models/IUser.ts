@@ -9,7 +9,8 @@ export interface IUser {
     email: string;
     firstName: string;
     lastName: string;
+    avatar: string;
     isActivated: boolean;
     id: string;
-    transactions: [Transaction];
+    transactions: Transaction[];
 }

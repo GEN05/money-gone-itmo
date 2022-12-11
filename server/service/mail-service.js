@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
 class MailService {
 
@@ -18,8 +18,8 @@ class MailService {
         await this.transporter.sendMail({
             from: process.env.SMTP_USER,
             to,
-            subject: 'Activate your account on ' + process.env.API_URL,
-            text: '',
+            subject: "Activate your account on " + process.env.API_URL,
+            text: "",
             html:
                 `
                     <div>

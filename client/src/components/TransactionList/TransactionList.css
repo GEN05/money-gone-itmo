@@ -3,18 +3,17 @@
 }
 
 .transaction {
-    min-width: 240px;
-
     margin: 12px 0 0 0;
     padding: 10px 12px 10px 12px;
-    border-radius: 10px;
-
-    box-shadow: 0 2px 5px rgba(13, 63, 103, 0.1);
-    background: rgba(255, 255, 255, 1);
+    min-width: 240px;
 
     display: flex;
     flex-direction: row;
     align-items: center;
+
+    box-shadow: 0 2px 5px rgba(13, 63, 103, 0.1);
+    background: rgba(255, 255, 255, 1);
+    border-radius: 10px;
 
     cursor: pointer;
 }
@@ -32,11 +31,11 @@
 }
 
 .transaction_info {
-    display: flex;
-    flex-direction: column;
-
     min-width: 100px;
     margin-left: 12px;
+
+    display: flex;
+    flex-direction: column;
 }
 
 .transaction_category_img {
@@ -49,16 +48,17 @@
 }
 
 .transaction_value {
-    font-weight: bold;
-    margin-left: auto;
     margin-top: 4px;
+    margin-left: auto;
+
+    font-weight: bold;
 }
 
 .transaction_delete {
-    width: 32px;
-    height: 32px;
     margin-left: 8px;
     margin-bottom: 4px;
+    width: 32px;
+    height: 32px;
 
     cursor: pointer;
 }

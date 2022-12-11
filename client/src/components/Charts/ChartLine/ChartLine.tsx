@@ -5,7 +5,6 @@ import {Transaction} from "../../../models/IUser";
 import {Line} from 'react-chartjs-2';
 import {
     dateHumanReadableFull,
-    dateHumanReadableMonth,
     dateHumanReadableMonthYear,
     dateToYYYYMM,
     dateToYYYYMMDD

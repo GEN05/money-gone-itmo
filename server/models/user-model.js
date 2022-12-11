@@ -1,8 +1,8 @@
-const {Schema, model} = require('mongoose');
+const {Schema, model} = require("mongoose");
 
 const TransactionSchema = new Schema({
     date: {type: Number, required: true},
-    category: {type: String, default: 'default'},
+    category: {type: String, default: "default"},
     value: {type: Number, required: true},
 })
 
@@ -11,9 +11,10 @@ const UserSchema = new Schema({
     password: {type: String, required: true},
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
+    avatar: {type: String, default: "dog"},
     isActivated: {type: Boolean, default: false},
     activationLink: {type: String},
     transactions: {type: [TransactionSchema], default: []}
 })
 
-module.exports = model('User', UserSchema);
+module.exports = model("User", UserSchema);

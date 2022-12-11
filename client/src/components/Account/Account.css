@@ -1,10 +1,10 @@
 .account {
+    min-width: 330px;
+
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-
-    min-width: 330px;
 }
 
 .account_info {
@@ -20,26 +20,26 @@
     white-space: nowrap;
 }
 
-.profile-photo {
+.avatar {
     width: 64px;
     height: 64px;
 }
 
 .user_info {
+    margin-left: 16px;
+
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-
-    margin-left: 16px;
 }
 
 .user_info_actions {
+    margin-left: 16px;
+    height: auto;
+
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-
-    margin-left: 16px;
-    height: auto;
 }
 
 .user_info_name {
@@ -57,7 +57,7 @@
 }
 
 @media (max-width: 320px) {
-    .profile-photo {
+    .avatar {
         height: unset;
         width: unset;
         display: none;

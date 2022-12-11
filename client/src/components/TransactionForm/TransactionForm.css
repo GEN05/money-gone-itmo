@@ -1,47 +1,37 @@
-hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid #ccc;
-    margin: 1em 0;
-    padding: 0;
-}
-
 .transaction-form_default {
+    padding: 0 10px 0 4px;
+
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-
-    padding: 0 10px 0 4px;
 }
 
 .transaction-form_active {
+    margin-top: 16px;
+
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-
-    margin-top: 16px;
 }
 
-.transaction-form_inputs{
+.transaction-form_inputs {
     display: flex;
     flex-direction: row;
-    /*width: min-content;*/
 }
 
-.transaction-form_select{
+.transaction-form_select {
     min-width: 150px;
     width: max-content;
 }
 
-.transaction-form_input{
-    width: 50px;
+.transaction-form_input {
     margin-left: 12px;
     padding: 2px 8px;
-    /*used hsl color model because 'react-select' use the same model*/
-    border: 1px solid hsl(0deg 0% 80%);
+    width: 50px;
+
+    border: 1px solid #ccccccf2;
     border-radius: 4px;
 }
 
@@ -54,9 +44,18 @@ hr {
 }
 
 .transaction-form_close {
+    margin-left: auto;
     width: 32px;
     height: 32px;
-    margin-left: auto;
 
     cursor: pointer;
+}
+
+.transaction-form-wrapper hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
 }
