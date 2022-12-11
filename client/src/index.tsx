@@ -7,7 +7,6 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Link,
   Navigate,
 } from "react-router-dom";
 import StartPage from "./components/StartPage/StartPage";

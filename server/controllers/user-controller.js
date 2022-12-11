@@ -65,8 +65,7 @@ class UserController {
   async requestPasswordReset(req, res, next) {
     try {
       const { email } = req.body;
-      const requestPasswordResetService =
-        await userService.requestPasswordReset(email);
+      await userService.requestPasswordReset(email);
       return await res.send();
     } catch (e) {
       next(e);

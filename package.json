@@ -21,11 +21,16 @@
   },
   "homepage": "https://github.com/GEN05/money-gone-itmo#readme",
   "devDependencies": {
+    "eslint": "^8.29.0",
+    "eslint-config-prettier": "^8.5.0",
     "husky": "^8.0.2",
     "lint-staged": "^13.1.0",
     "prettier": "2.8.1"
   },
   "lint-staged": {
-    "**/*": "prettier --write --ignore-unknown"
+    "*.(js|ts|tsx)": [
+      "eslint --fix",
+      "prettier --write --ignore-unknown"
+    ]
   }
 }
