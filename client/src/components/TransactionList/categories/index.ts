@@ -16,7 +16,7 @@ export const categoryImgs: CategoryType = {
     transport: transportImg,
     other: otherImg
 
-}
+};
 
 export const categoryTitles: CategoryType = {
     supermarket: 'Supermarket',
@@ -24,4 +24,4 @@ export const categoryTitles: CategoryType = {
     shopping: 'Shopping',
     transport: 'Transport',
     other: 'Other'
-}
+};

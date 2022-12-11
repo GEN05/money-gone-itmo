@@ -59,3 +59,47 @@
     margin: 1em 0;
     padding: 0;
 }
+
+/* toggle (Cash / Bank statement) */
+
+.toggle-wrapper *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.toggle-wrapper{
+    display: inline-flex;
+}
+.toggle-wrapper .option{
+    background: #fff;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 0 3px;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 0 3px;
+    border: 1px solid #808080;
+    transition: all 0.3s ease;
+}
+
+input[type="radio"]{
+    display: none;
+}
+#option-1:checked:checked ~ .option-1,
+#option-2:checked:checked ~ .option-2{
+    border-color: #10afb2;
+    background: #10afb2;
+}
+
+.toggle-wrapper .option span{
+    font-size: 20px;
+    color: #808080;
+}
+#option-1:checked:checked ~ .option-1 span,
+#option-2:checked:checked ~ .option-2 span{
+    color: #fff;
+}

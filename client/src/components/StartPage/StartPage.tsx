@@ -7,14 +7,14 @@ import avatarDog from "../../images/avatar-dog.png"
 
 const StartPage: FC = () => {
     const {store} = useContext(Context);
-    const [state, setState] = useState<string>("login")
-    const [email, setEmail] = useState<string>("")
-    const [password, setPassword] = useState<string>("")
-    const [firstName, setFirstName] = useState<string>("")
-    const [lastName, setLastName] = useState<string>("")
-    const [avatar, setAvatar] = useState<string>("dog")
-    const [newEmail, setNewEmail] = useState<string>("")
-    const [newPassword, setNewPassword] = useState<string>("")
+    const [state, setState] = useState<string>("login");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [firstName, setFirstName] = useState<string>("");
+    const [lastName, setLastName] = useState<string>("");
+    const [avatar, setAvatar] = useState<string>("dog");
+    const [newEmail, setNewEmail] = useState<string>("");
+    const [newPassword, setNewPassword] = useState<string>("");
 
     function signInPage() {
         return (

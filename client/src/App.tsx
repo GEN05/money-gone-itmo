@@ -1,5 +1,5 @@
 import "./App.css"
-import React, {FC, useContext, useEffect} from "react";
+import React, {FC, useContext, useEffect, useState} from "react";
 import {Context} from "./index";
 import {observer} from "mobx-react-lite";
 import StartPage from "./components/StartPage/StartPage";
@@ -14,6 +14,7 @@ Chart.register(...registerables);
 
 const App: FC = () => {
     const {store} = useContext(Context);
+    const [trnsList, setTrnsList] = useState<string>("cash");
 
     useEffect(() => {
         if (localStorage.getItem("token")) {
@@ -44,8 +45,8 @@ const App: FC = () => {
             </div>
             <div className="transactions-window">
                 <Account/>
-                <TransactionForm/>
-                <TransactionList/>
+                <TransactionForm trnsList={trnsList} setTrnsList={setTrnsList}/>
+                <TransactionList trnsList={trnsList}/>
             </div>
         </div>
     );

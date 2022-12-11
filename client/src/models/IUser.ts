@@ -13,4 +13,5 @@ export interface IUser {
     isActivated: boolean;
     id: string;
     transactions: Transaction[];
+    transactionsFromBank: Transaction[];
 }

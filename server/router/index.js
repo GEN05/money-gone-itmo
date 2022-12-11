@@ -17,5 +17,6 @@ router.get("/activate/:link", userController.activate);
 router.get("/refresh", userController.refresh);
 router.post("/add-transaction", authMiddleware, userController.addTransaction);
 router.post("/delete-transaction", authMiddleware, userController.deleteTransaction);
+router.post("/add-transaction-list", authMiddleware, userController.addTransactionsFromBank);
 
-module.exports = router
+module.exports = router;

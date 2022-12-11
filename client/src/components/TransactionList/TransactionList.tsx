@@ -6,68 +6,107 @@ import {dateHumanReadableFull, numberWithCommas} from "../helper"
 import {categoryImgs, categoryTitles} from "./categories";
 import {ReactComponent as DeleteIcon} from "./delete.svg";
 
+interface TransactionListProps {
+    trnsList: string,
+}
 
-const TransactionList: FC = () => {
+const TransactionList: FC<TransactionListProps> = ({trnsList}) => {
     const {store} = useContext(Context);
     const [activeTrns, setActiveTrns] = useState<string>("")
+
+    // console.log(`in list ${trnsList}`)
 
     if (!store.isAuth) {
         return null;
     }
 
-    if (!store.user.transactions || store.user.transactions.length === 0) {
+    if (trnsList === "cash" && (!store.user.transactions || store.user.transactions.length === 0)) {
         return <div className="transactions"><span>NO TRANSACTIONS FOUND</span></div>
+    }
+
+    if (trnsList === "bank" && (!store.user.transactionsFromBank || store.user.transactionsFromBank.length === 0)) {
+        return <div className="transactions">
+            <a target="_blank" rel="noreferrer" href="https://www.tinkoff.ru/events/feed/?preset=all">download bank
+                statement in csv format</a>
+        </div>
     }
 
     return (
         <div className="transactions">
-            {
-                [...store.user.transactions].reverse().map(trns => {
-                        return (
-                            <div
-                                id={trns.id}
-                                key={trns.id}
-                                className={"transaction" + (activeTrns === trns.id ? " cursor-disabled" : "")}
-                                tabIndex={1}
-                                onFocus={() => setActiveTrns(trns.id)}
-                                onBlur={() => setActiveTrns("")}
-                            >
-                                <img
-                                    className="transaction_category_img"
-                                    src={categoryImgs[trns.category] || categoryImgs["other"]}
-                                    alt={trns.category}
-                                />
+            {trnsList === "cash" && [...store.user.transactions].reverse().map(trns => {
+                    return (
+                        <div
+                            id={trns.id}
+                            key={trns.id}
+                            className={"transaction" + (activeTrns === trns.id ? " cursor-disabled" : "")}
+                            tabIndex={1}
+                            onFocus={() => setActiveTrns(trns.id)}
+                            onBlur={() => setActiveTrns("")}
+                        >
+                            <img
+                                className="transaction_category_img"
+                                src={categoryImgs[trns.category] || categoryImgs["other"]}
+                                alt={trns.category}
+                            />
 
-                                <div className="transaction_info">
+                            <div className="transaction_info">
                                     <span className="transaction_category">
                                         {categoryTitles[trns.category] || "Other"}
                                     </span>
-                                    <span>
+                                <span>
                                         {dateHumanReadableFull(new Date(trns.date))}
                                     </span>
-                                </div>
+                            </div>
 
-                                <span className="transaction_value">
+                            <span className="transaction_value">
                                     {`-$${numberWithCommas(trns.value)}`}
                                 </span>
 
-                                {activeTrns === trns.id &&
-                                    <DeleteIcon
-                                        className="transaction_delete"
-                                        onClick={(e) => {
-                                            if (e.currentTarget.parentElement?.id) {
-                                                store.deleteTransaction(e.currentTarget.parentElement.id)
-                                            }
-                                        }}
-                                    />
-                                }
+                            {activeTrns === trns.id &&
+                            <DeleteIcon
+                                className="transaction_delete"
+                                onClick={(e) => {
+                                    if (e.currentTarget.parentElement?.id) {
+                                        store.deleteTransaction(e.currentTarget.parentElement.id)
+                                    }
+                                }}
+                            />
+                            }
+                        </div>
+                    );
+                }
+            )}
+            {trnsList === "bank" && [...store.user.transactionsFromBank].reverse().map(trns => {
+                    return (
+                        <div
+                            id={trns.id}
+                            key={trns.id}
+                            className={"transaction cursor-disabled"}
+                        >
+                            <img
+                                className="transaction_category_img"
+                                src={categoryImgs[trns.category] || categoryImgs["other"]}
+                                alt={trns.category}
+                            />
+
+                            <div className="transaction_info">
+                                <span className="transaction_category">
+                                    {categoryTitles[trns.category] || "Other"}
+                                </span>
+                                <span>
+                                    {dateHumanReadableFull(new Date(trns.date))}
+                                </span>
                             </div>
-                        );
-                    }
-                )
-            }
+
+                            <span className="transaction_value">
+                                {`-$${numberWithCommas(trns.value)}`}
+                            </span>
+                        </div>
+                    );
+                }
+            )}
         </div>
     );
-}
+};
 
 export default observer(TransactionList);

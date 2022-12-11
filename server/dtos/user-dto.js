@@ -7,5 +7,6 @@ module.exports = class UserDto {
         this.id = model._id;
         this.isActivated = model.isActivated;
         this.transactions = model.transactions;
+        this.transactionsFromBank = model.transactionsFromBank;
     }
 }

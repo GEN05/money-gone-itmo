@@ -87,6 +87,20 @@ class UserController {
             next(e);
         }
     }
+
+    async addTransactionsFromBank(req, res, next) {
+        try {
+            const {trnsList} = req.body;
+            console.log(trnsList);
+            const userTransactions = await userService.addTransactionsFromBank(req.user.id, trnsList);
+            // const transactions = await userService.addTransaction(req.user.id, "12345", category, value);
+            // return res.json(transactions);
+            // console.log(userTransactions)
+            return res.json(trnsList);
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 
