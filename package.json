@@ -11,7 +11,10 @@
     "prepare": "husky install",
     "check": "npm-run-all check:*",
     "check:eslint": "eslint .",
-    "check:prettier": "prettier --check ."
+    "check:prettier": "prettier --check .",
+    "lint": "npm-run-all lint:*",
+    "lint:eslint": "eslint --fix .",
+    "lint:prettier": "prettier --write ."
   },
   "repository": {
     "type": "git",
@@ -33,8 +36,9 @@
   },
   "lint-staged": {
     "*.(js|ts|tsx)": [
-      "eslint --fix .",
-      "prettier --write --ignore-unknown ."
-    ]
+      "eslint .",
+      "prettier --check --ignore-unknown ."
+    ],
+    "*": "prettier --check --ignore-unknown ."
   }
 }
